@@ -22,8 +22,19 @@ public class LoopingStatements {
             LOGGER.info("Count: " + counter);
         }
     }
+    public void whileLoop(){
+        int studentCount = 0;
+        while(studentCount < 10){
+            LOGGER.info("Student Count = " + studentCount);
+            studentCount++;
+        }
+
+        // initialize condition  update
+
+    }
     public static void main(String[] args) {
         LoopingStatements app = new LoopingStatements();
-        app.forLoop();
+       // app.forLoop();
+        app.whileLoop();
     }
 }
