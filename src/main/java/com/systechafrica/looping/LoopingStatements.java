@@ -14,6 +14,13 @@ public class LoopingStatements {
 
             LOGGER.info("Count: " + counter);
         }
+        for(int counter = 0; counter <= 10; counter = counter + 1){
+
+            LOGGER.info("Count: " + counter);
+        }  for(int counter = 0; counter <= 10; counter+=1){
+
+            LOGGER.info("Count: " + counter);
+        }
     }
     public static void main(String[] args) {
         LoopingStatements app = new LoopingStatements();
