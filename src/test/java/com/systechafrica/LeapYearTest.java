@@ -27,9 +27,4 @@ public class LeapYearTest {
         Assertions.assertFalse(leapYear.isLeapYear(1997));
     }
 
-
-
-
-
-
 }
