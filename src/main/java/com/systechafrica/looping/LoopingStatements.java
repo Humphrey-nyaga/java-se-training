@@ -1,7 +1,5 @@
 package com.systechafrica.looping;
 
-import com.systechafrica.controlflow.ControlFlow;
-
 import java.util.logging.Logger;
 
 public class LoopingStatements {
@@ -46,10 +44,35 @@ public class LoopingStatements {
 
 
     }
+    public void breakJumpStatement(){
+        LOGGER.info("Before My Loop");
+
+        for(int index = 0; index <10; index++){
+            if(index == 5){
+                break;
+            }
+            LOGGER.info("my index is: " + index);
+        }
+        LOGGER.info("After My Loop");
+
+    }
+    public void continueJumpStatement(){
+        LOGGER.info("Before My Loop");
+        for(int index = 0; index <10; index++){
+            if(index == 5){
+                continue;
+            }
+            LOGGER.info("my index is: " + index);
+        }
+        LOGGER.info("After My Loop");
+
+    }
     public static void main(String[] args) {
         LoopingStatements app = new LoopingStatements();
        // app.forLoop();
         //app.whileLoop();
-        app.doWhileloop();
+        // app.doWhileloop();
+        //app.breakJumpStatement();
+        app.continueJumpStatement();
     }
 }
