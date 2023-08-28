@@ -78,6 +78,14 @@ public class LoopingStatements {
         LOGGER.info("After My Loop");
 
     }
+    public int search(int numberToSearch){
+        for(int index = 1; index <= 50; index++){
+            if(index == numberToSearch){
+                return index;
+            }
+        }
+        return 0;
+    }
     public static void main(String[] args) {
         LoopingStatements app = new LoopingStatements();
        // app.forLoop();
@@ -85,6 +93,7 @@ public class LoopingStatements {
         // app.doWhileloop();
         //app.breakJumpStatement();
         //app.continueJumpStatement();
-        app.returnJumpStatement();
+       // app.returnJumpStatement();
+
     }
 }
