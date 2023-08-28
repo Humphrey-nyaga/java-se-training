@@ -32,9 +32,24 @@ public class LoopingStatements {
         // initialize condition  update
 
     }
+
+    public void doWhileloop(){
+        int counter = 0;
+        int myNumber = 0;
+        do {
+            LOGGER.info("my number is: ");
+            myNumber++;
+            counter++;
+        }
+        while (myNumber<10);
+            LOGGER.info("Counter: ");
+
+
+    }
     public static void main(String[] args) {
         LoopingStatements app = new LoopingStatements();
        // app.forLoop();
-        app.whileLoop();
+        //app.whileLoop();
+        app.doWhileloop();
     }
 }
