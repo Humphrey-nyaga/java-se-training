@@ -19,7 +19,9 @@ public class WorkingWithArrays {
     }
     public static void main(String [] args){
         WorkingWithArrays app = new WorkingWithArrays();
-        app.singleDimensionalArray();
+        //app.singleDimensionalArray();
+
+
 
     }
 }

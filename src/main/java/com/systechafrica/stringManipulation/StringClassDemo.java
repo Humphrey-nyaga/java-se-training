@@ -28,5 +28,14 @@ public class StringClassDemo {
     LOGGER.info(""+equals);
     LOGGER.info(""+equals2);
 
+    //
+        String ta = "A ";
+        ta = ta.concat("B ");
+        String tb = "C ";
+        ta = ta.concat(tb);
+        ta.replace("C", "D");
+        ta = ta.concat(tb);
+        LOGGER.info(ta);
+
     }
 }
