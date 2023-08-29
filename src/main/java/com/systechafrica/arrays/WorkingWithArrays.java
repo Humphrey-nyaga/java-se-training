@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 
 public class WorkingWithArrays {
     private static final Logger LOGGER = Logger.getLogger(WorkingWithArrays.class.getName());
-    public void singleDimensionalArray(){
-        int[] numbers = {45, 10, 26,35, 40,59};
+    public void singleDimensionalArray() {
+        int[] numbers = {45, 10, 26, 35, 40, 59};
         String[] nicknames = {"Mhusika", "Ntate", "Yokana"};
         for (int number : numbers) {
             LOGGER.info("" + number);
