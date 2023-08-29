@@ -14,5 +14,8 @@ public class StringBuilderClassDemo {
 
     boolean equals = str.equals(sb.toString());
     LOGGER.info("" + equals);
+
+    // TODO
+        //? delete, append, replace, insert
     }
 }
