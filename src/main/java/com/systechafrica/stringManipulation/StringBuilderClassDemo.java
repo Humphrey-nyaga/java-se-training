@@ -1,5 +1,6 @@
 package com.systechafrica.stringManipulation;
 
+import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -31,9 +32,46 @@ public class StringBuilderClassDemo {
         LOGGER.info("Original String before replacement: " + sb.toString());
         sb.replace(15,24, "Programmers");
         LOGGER.info("New String after replacement: " + sb.toString());
+        LOGGER.info("Current capacity: " + sb.capacity());
 
     }
 
+    public void stringBuilderSubstring(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Hello Software Engineers ");
+        LOGGER.info("Original String: " + sb.toString());
+        LOGGER.info("Substring indices[0, 17]: " + sb.substring(6));
+    }
+
+    public void stringBuilderReverse(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Hello Software Engineers ");
+        LOGGER.info("Original String: " + sb.toString());
+        sb.reverse();
+        LOGGER.info("Reversed String: " + sb);
+
+    }
+    public void stringBuilderAppend(){
+        StringBuilder sb = new StringBuilder();
+
+        String fName = "Joe";
+        String lName = "Doe";
+        Date dob = new Date();
+        String email = "joedoe@example.com";
+        String gender = "Male";
+
+        sb.append(fName)
+                .append(" ")
+                .append(lName)
+                .append(" ")
+                .append(dob)
+                .append(" ")
+                .append(email)
+                .append(" ")
+                .append(gender);
+        LOGGER.info("User Info: " + sb);
+
+    }
     public static void main(String[] args) {
 
      StringBuilderClassDemo app = new StringBuilderClassDemo();
@@ -48,7 +86,10 @@ public class StringBuilderClassDemo {
         //? delete, append, replace, insert
        // app.deleteStringBuilder();
         //app.insertStringBuilder();
-        app.replaceStringBuilder();
+       //app.replaceStringBuilder();
+       // app.stringBuilderSubstring();
+       // app.stringBuilderReverse();
+        app.stringBuilderAppend();
 
     }
 }
