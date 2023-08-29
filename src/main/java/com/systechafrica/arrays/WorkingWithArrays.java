@@ -12,6 +12,10 @@ public class WorkingWithArrays {
         for (int number : numbers) {
             LOGGER.info("" + number);
         }
+        LOGGER.info( nicknames[0]);
+        LOGGER.info(nicknames[1]);
+        LOGGER.info( nicknames[2]);
+
     }
     public static void main(String [] args){
         WorkingWithArrays app = new WorkingWithArrays();
