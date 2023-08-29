@@ -25,6 +25,14 @@ public class StringBuilderClassDemo {
         sb.insert(10, " Scala");
         LOGGER.info("New String after insert: " + sb.toString());
     }
+    public void replaceStringBuilder(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Hello Software Engineers ");
+        LOGGER.info("Original String before replacement: " + sb.toString());
+        sb.replace(15,24, "Programmers");
+        LOGGER.info("New String after replacement: " + sb.toString());
+
+    }
 
     public static void main(String[] args) {
 
@@ -39,7 +47,8 @@ public class StringBuilderClassDemo {
     // TODO
         //? delete, append, replace, insert
        // app.deleteStringBuilder();
-        app.insertStringBuilder();
+        //app.insertStringBuilder();
+        app.replaceStringBuilder();
 
     }
 }
