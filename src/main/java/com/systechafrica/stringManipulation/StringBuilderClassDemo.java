@@ -18,6 +18,13 @@ public class StringBuilderClassDemo {
         LOGGER.info("New String after new append: " + sb.toString());
 
     }
+    public void insertStringBuilder(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Welcome to Programming");
+        LOGGER.info("Original String before insert: " + sb.toString());
+        sb.insert(10, " Scala");
+        LOGGER.info("New String after insert: " + sb.toString());
+    }
 
     public static void main(String[] args) {
 
@@ -31,7 +38,8 @@ public class StringBuilderClassDemo {
 
     // TODO
         //? delete, append, replace, insert
-        app.deleteStringBuilder();
+       // app.deleteStringBuilder();
+        app.insertStringBuilder();
 
     }
 }
