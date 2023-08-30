@@ -39,31 +39,38 @@ public class ATMMachine {
     public void deposit(){
         System.out.print("Enter Amount to Deposit: ");
         double depositAmount = scanner.nextInt();
-        openingBalance += depositAmount;
+        if(depositAmount < 1) {
+            System.out.println("\nAmount Cannot be less than One");
+        }
+        else{
+            openingBalance += depositAmount;
+            LOGGER.info("\nYour deposit of: "+ depositAmount +" was successful");
+            LOGGER.info("\nYour New Balance is: !" + openingBalance);
+        }
     }
     public void withdraw() {
         System.out.print("Enter Amount to Withdraw: ");
         int withdrawAmount = scanner.nextInt();
         double transactionCharge = withdrawAmount * TRANSACTION_PERCENTAGE;
         if (withdrawAmount + transactionCharge > openingBalance) {
-            System.out.print("Insufficient Balance!");
+            System.out.print("\nInsufficient Balance!");
         } else {
             openingBalance -= withdrawAmount;
             openingBalance -= transactionCharge;
-            LOGGER.info("Amount withdrawn successfully is: !" + withdrawAmount);
+            LOGGER.info("\nAmount withdrawn successfully is: !" + withdrawAmount);
             LOGGER.info("Transaction charge is: !" + transactionCharge);
-            LOGGER.info("Account balance is: !" + openingBalance);
+            LOGGER.info("Account balance is: !" + openingBalance + "\n");
         }
     }
         public void transfer(){
             System.out.print("Enter Amount to Transfer: ");
             double transferAmount = scanner.nextInt();
             if (transferAmount > openingBalance) {
-                System.out.print("Insufficient Balance!");
+                System.out.print("\nInsufficient Balance!");
             } else {
                 openingBalance -= transferAmount;
-                LOGGER.info("Amount transferred successfully is: !" + transferAmount);
-                LOGGER.info("Account balance is: !" + openingBalance);
+                LOGGER.info("\n Amount transferred successfully is: !" + transferAmount);
+                LOGGER.info("Account balance is: !" + openingBalance + "\n");
             }
         }
 
@@ -82,6 +89,7 @@ public class ATMMachine {
                     "3. Withdraw\n" +
                     "4. Transfer Cash\n" +
                     "5. Quit");
+            System.out.println("\n");
             System.out.print("Choose the service: ");
             String option = scanner.nextLine();
 
