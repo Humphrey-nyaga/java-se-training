@@ -72,6 +72,21 @@ public class StringBuilderClassDemo {
         LOGGER.info("User Info: " + sb);
 
     }
+    public void testSample(){
+        StringBuilder sb = new StringBuilder();
+        String s = "";
+
+        if(sb.equals(s)){
+            System.out.println("Match 1");
+        }
+        else if(sb.toString().equals(s.toString())){
+            System.out.println("Match 2");
+        }
+        else{
+            System.out.println("No Match");
+        }
+
+    }
     public static void main(String[] args) {
 
      StringBuilderClassDemo app = new StringBuilderClassDemo();
@@ -82,14 +97,13 @@ public class StringBuilderClassDemo {
 //    boolean equals = str.equals(sb.toString());
 //    LOGGER.info("" + equals);
 
-    // TODO
-        //? delete, append, replace, insert
        // app.deleteStringBuilder();
         //app.insertStringBuilder();
        //app.replaceStringBuilder();
        // app.stringBuilderSubstring();
        // app.stringBuilderReverse();
-        app.stringBuilderAppend();
+        //app.stringBuilderAppend();
+        app.testSample();
 
     }
 }
