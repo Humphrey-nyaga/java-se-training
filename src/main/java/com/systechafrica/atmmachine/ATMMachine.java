@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 
 public class ATMMachine {
     private static final Logger LOGGER = Logger.getLogger(WorkingWithArrays.class.getName());
-    int openingBalance = 1000;
+    double openingBalance = 1000;
+    final double TRANSACTION_PERCENTAGE = 0.02;
 
     public boolean isValidLogin() {
         final String DB_USERNAME = "user254";
@@ -33,18 +34,65 @@ public class ATMMachine {
     }
 
     public void userAccountTransaction() {
-        System.out.println("***************\n");
-        System.out.println("ATM SIMULATOR\n");
-        System.out.println("\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n");
-        System.out.println("ATM SERVICES\n");
-        System.out.println("__________________\n");
-        System.out.println("\n"+
-                "1. Check Balance\n" +
-                "2. Deposit\n" +
-                "3. Withdraw\n" +
-                "4. Transfer Cash\n" +
-                "5. Quit");
+        boolean isActive = true;
+        while(isActive) {
+            System.out.println("***************\n");
+            System.out.println("ATM SIMULATOR\n");
+            System.out.println("\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n");
+            System.out.println("ATM SERVICES\n");
+            System.out.println("__________________\n");
+            System.out.println("\n" +
+                    "1. Check Balance\n" +
+                    "2. Deposit\n" +
+                    "3. Withdraw\n" +
+                    "4. Transfer Cash\n" +
+                    "5. Quit");
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Choose the service: ");
+            String option = scanner.nextLine();
 
+            switch (option) {
+                case "1":
+                    System.out.println("Balance is: " + openingBalance);
+                    break;
+                case "2":
+                    System.out.print("Enter Amount to Deposit: ");
+                    double depositAmount = scanner.nextInt();
+                    openingBalance += depositAmount;
+                    break;
+                case "3":
+                    System.out.print("Enter Amount to Withdraw: ");
+                    int withdrawAmount = scanner.nextInt();
+                    double transactionCharge = withdrawAmount * TRANSACTION_PERCENTAGE;
+                    if (withdrawAmount + transactionCharge > openingBalance) {
+                        System.out.print("Withdrawal Amount is Higher than the balance!");
+                        break;
+                    } else {
+                        openingBalance -= withdrawAmount;
+                        openingBalance -= transactionCharge;
+                        LOGGER.info("Amount withdrawn successfully is: !" + withdrawAmount);
+                        LOGGER.info("Transaction charge is: !" + transactionCharge);
+                        LOGGER.info("Account balance is: !" + openingBalance);
+                    }
+                    break;
+                case "4":
+                    System.out.print("Enter Amount to Transfer: ");
+                    double transferAmount = scanner.nextInt();
+                    if (transferAmount > openingBalance) {
+                        System.out.print("Insufficient Balance!");
+                        break;
+                    } else {
+                        openingBalance -= transferAmount;
+                        LOGGER.info("Amount transferred successfully is: !" + transferAmount);
+                        LOGGER.info("Account balance is: !" + openingBalance);
+                    }
+                    break;
+                case "5":
+                    isActive = false;
+                    break;
+            }
+
+        }
     }
     public static void main(String[] args) {
         ATMMachine app = new ATMMachine();
