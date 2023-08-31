@@ -8,7 +8,6 @@ public class AppTest {
 
     //? Reference => App
     App app = new App();
-
     @Test
     void add(){
         //when
