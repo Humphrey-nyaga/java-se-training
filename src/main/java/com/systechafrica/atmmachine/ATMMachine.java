@@ -1,6 +1,7 @@
 package com.systechafrica.atmmachine;
 
 import com.systechafrica.arrays.WorkingWithArrays;
+import com.systechafrica.constant.Constants;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -10,7 +11,7 @@ public class ATMMachine {
     private static final Scanner scanner = new Scanner(System.in);
 
     double openingBalance = 1000;
-    final double TRANSACTION_PERCENTAGE = 0.02;
+    //final double TRANSACTION_PERCENTAGE = ;
 
     public boolean isValidLogin() {
         final String DB_USERNAME = "user254";
@@ -51,7 +52,7 @@ public class ATMMachine {
     public void withdraw() {
         System.out.print("Enter Amount to Withdraw: ");
         int withdrawAmount = scanner.nextInt();
-        double transactionCharge = withdrawAmount * TRANSACTION_PERCENTAGE;
+        double transactionCharge = withdrawAmount * Constants.RATE;
         if (withdrawAmount + transactionCharge > openingBalance) {
             System.out.print("\nInsufficient Balance!");
         } else {
