@@ -7,6 +7,7 @@ public class ATMMachine2 {
     private static final Logger LOGGER = Logger.getLogger(ATMMachine2.class.getName());
     Scanner scanner = new Scanner(System.in);
     final double INITIAL_BALANCE = 1000.00;
+    final double WITHDRAWAL_CHARGES = 0.02;
     double runningBalance = INITIAL_BALANCE;
     public void login(){
 
@@ -21,8 +22,15 @@ public class ATMMachine2 {
         //? add amount to running balance
         runningBalance += amountToDeposit;
     }
-    public void performWithdrawal(){}
-    public void performTransfer(){}
+    public void performWithdrawal(){
+        //? get amount to withdraw
+        //? calculate withdraw + charges
+        //? check if running balance is sufficient
+    }
+    public void performTransfer(){
+        //? get transfer amount
+        //? subtract amount from running balance
+    }
     public void printReceipt(){}
 
 
