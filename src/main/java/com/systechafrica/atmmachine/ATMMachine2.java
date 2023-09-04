@@ -74,7 +74,7 @@ public class ATMMachine2 {
             runningBalance -= transactionCost;
             System.out.println("\nAmount withdrawn successfully is: " + withdrawAmount);
             System.out.println("Transaction charge is: " + transactionCost);
-            System.out.println("Account balance is: " + runningBalance + "\n");
+            System.out.println("Account balance is: " + runningBalance + "");
         }
     }
 
