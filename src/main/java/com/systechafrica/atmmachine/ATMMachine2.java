@@ -54,9 +54,16 @@ public class ATMMachine2 {
 
     public void performDeposit() {
         //? get amount to deposit
+        System.out.print("Enter Amount to Deposit: ");
         double amountToDeposit = scanner.nextDouble();
-        //? add amount to running balance
-        runningBalance += amountToDeposit;
+        if(amountToDeposit < 1) {
+            System.out.println("\n Amount Cannot be less than One");
+        }
+        else{
+            runningBalance += amountToDeposit;
+            System.out.println("\nYour deposit of: "+ amountToDeposit +" was successful");
+            System.out.println("\nYour New Balance is: " + runningBalance);
+        }
     }
 
     public void performWithdrawal() {
