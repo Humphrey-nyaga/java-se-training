@@ -1,5 +1,7 @@
 package com.systechafrica.atmmachine;
 
+import com.systechafrica.constant.Constants;
+
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -61,6 +63,19 @@ public class ATMMachine2 {
         //? get amount to withdraw
         //? calculate withdraw + charges
         //? check if running balance is sufficient
+        System.out.print("Enter Amount to Withdraw: ");
+        double withdrawAmount = scanner.nextInt();
+        double transactionCost = withdrawAmount * WITHDRAWAL_CHARGES;
+        double withdrawAmountAndTransactionCost = withdrawAmount + transactionCost;
+        if (withdrawAmountAndTransactionCost > runningBalance) {
+            System.out.print("\nInsufficient Balance!...Try a smaller amount");
+        } else {
+            runningBalance -= withdrawAmount;
+            runningBalance -= transactionCost;
+            System.out.println("\nAmount withdrawn successfully is: " + withdrawAmount);
+            System.out.println("Transaction charge is: " + transactionCost);
+            System.out.println("Account balance is: " + runningBalance + "\n");
+        }
     }
 
     public void performTransfer() {
