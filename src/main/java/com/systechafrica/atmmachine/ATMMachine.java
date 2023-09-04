@@ -1,13 +1,12 @@
 package com.systechafrica.atmmachine;
 
-import com.systechafrica.arrays.WorkingWithArrays;
 import com.systechafrica.constant.Constants;
 
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class ATMMachine {
-    private static final Logger LOGGER = Logger.getLogger(WorkingWithArrays.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ATMMachine.class.getName());
     private static final Scanner scanner = new Scanner(System.in);
 
     double openingBalance = 1000;
@@ -34,10 +33,11 @@ public class ATMMachine {
         LOGGER.warning("Login Attempts Limit Exceeded!");
         return false;
     }
-    public void checkBalance(){
+    public double checkBalance(){
         System.out.println("Balance is: " + openingBalance);
+        return openingBalance;
     }
-    public void deposit(){
+    public double deposit(){
         System.out.print("Enter Amount to Deposit: ");
         double depositAmount = scanner.nextInt();
         if(depositAmount < 1) {
@@ -48,6 +48,8 @@ public class ATMMachine {
             LOGGER.info("\nYour deposit of: "+ depositAmount +" was successful");
             LOGGER.info("\nYour New Balance is: !" + openingBalance);
         }
+        return openingBalance;
+
     }
     public void withdraw() {
         System.out.print("Enter Amount to Withdraw: ");
