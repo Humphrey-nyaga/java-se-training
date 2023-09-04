@@ -135,6 +135,22 @@ public class OperatorsDemo {
 
         LOGGER.info("");
     }
+    public void ternaryOperator(){
+        int nums = 8;
+        for( int i = 0; i<9; i ++) {
+            //? General syntax of ternary operator is: result = condition ? trueCase : elseCase;
+
+            /*
+            * *  To understand how the ternary operator below is evaluated, I read it as follows:
+            * if a value is greater than two and less than 4, 8 is printed.
+            * If the value is greater than 2 and greater than 4, 8 is printed
+            * Else 7 is printed
+            * * */
+            int solution = i > 2 ? i < 4 ? 10 : 8 : 7;
+            System.out.println("Ternary Operator result for "+i+" is: " + solution);
+        }
+    }
+
     public static void main(String[] args) {
         OperatorsDemo app = new OperatorsDemo();
         // app.arithmeticOperators();
@@ -142,7 +158,8 @@ public class OperatorsDemo {
         //app.comparisonOperators();
         //app.andLogicalOperator();
        // app.orLogicalOperator();
-        app.notLogicalOperator();
+        //app.notLogicalOperator();
+        app.ternaryOperator();
 
     }
 
