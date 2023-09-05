@@ -3,8 +3,8 @@ package com.systechafrica.part2;
 public class ClassesDemo {
     public static void main(String[] args) {
         ClassesDemo app = new ClassesDemo();
-        app.calculatorInstance();
-//        app.interns();
+         // app.calculatorInstance();
+        app.interns();
 //        app.carInstances();
 
     }
@@ -25,19 +25,17 @@ public class ClassesDemo {
     }
 
     public void interns() {
-        Intern hum = new Intern();
-        hum.name = "Humphrey Nyaga";
-        hum.email = "hum@example.com";
-        hum.phoneNumber = "123456789";
+        Intern hum = new Intern("Humphrey Nyaga","hum@example.com","123456789");
         hum.doAssignment();
         hum.attendClass();
+        System.out.println(hum.name);
+        System.out.println(hum.email);
 
-        Intern rojas = new Intern();
-        rojas.name = "Rojas Smith";
-        rojas.email = "smith@example.com";
-        rojas.phoneNumber = "7878787890";
+        Intern rojas = new Intern("Rojas Smith","smith@example.com","7878787890");
         rojas.doAssignment();
         rojas.attendClass();
+        System.out.println(rojas.name);
+        System.out.println(rojas.email);
     }
     public void calculatorInstance(){
         Calculator calculator = new Calculator();
