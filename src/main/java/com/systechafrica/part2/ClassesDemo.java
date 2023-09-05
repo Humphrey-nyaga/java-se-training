@@ -2,13 +2,14 @@ package com.systechafrica.part2;
 
 public class ClassesDemo {
     public static void main(String[] args) {
-
-
         ClassesDemo app = new ClassesDemo();
-        app.interns();
-        app.carInstances();
+        app.calculatorInstance();
+//        app.interns();
+//        app.carInstances();
+
     }
-    public void carInstances(){
+
+    public void carInstances() {
         Car forester = new Car();
         forester.color = "blue";
         forester.speed = 60;
@@ -22,7 +23,8 @@ public class ClassesDemo {
         cx5.accelerate(cx5.speed);
 
     }
-    public void interns(){
+
+    public void interns() {
         Intern hum = new Intern();
         hum.name = "Humphrey Nyaga";
         hum.email = "hum@example.com";
@@ -36,5 +38,10 @@ public class ClassesDemo {
         rojas.phoneNumber = "7878787890";
         rojas.doAssignment();
         rojas.attendClass();
+    }
+    public void calculatorInstance(){
+        Calculator calculator = new Calculator();
+        calculator.displayWelcomeMessage();
+        System.out.println("Sum is: " + calculator.add(6, 8));
     }
 }
