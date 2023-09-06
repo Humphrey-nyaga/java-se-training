@@ -11,4 +11,18 @@ public class Book {
         System.out.println("Book Details: " + "Title: " + title  + " " + "ISBN: " +isbn);
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "isbn='" + isbn + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        Book book = new Book();
+        book.isbn = "9900000";
+        book.title = "java";
+        System.out.println(book);
+    }
 }
