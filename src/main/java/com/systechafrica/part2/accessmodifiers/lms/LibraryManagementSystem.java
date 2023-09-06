@@ -1,4 +1,4 @@
-package com.systechafrica.part2.lms;
+package com.systechafrica.part2.accessmodifiers.lms;
 
 public class LibraryManagementSystem {
     public static void main(String[] args) {
