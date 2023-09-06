@@ -1,7 +1,5 @@
 package com.systechafrica.controlflow;
 
-import com.systechafrica.operators.OperatorsDemo;
-
 import java.util.logging.Logger;
 
 public class ControlFlow {
@@ -27,27 +25,14 @@ public class ControlFlow {
     }
     public void swithStatement(){
         String day = "FRIDAY";
-        switch(day){
-            case "MONDAY":
-                LOGGER.info("Monday working day");
-                break;
-            case "TUESDAY":
-                LOGGER.info("Tuesday working day");
-                break;
-            case "WEDNESDAY":
-                LOGGER.info("Wednesday working day");
-                break;
-            case "THURSDAY":
-                LOGGER.info("Thursday working day");
-                break;
-            case "FRIDAY":
-                LOGGER.info("Friday working day");
-                break;
-            case "SATURDAY":
-            case "SUNDAY":
-                LOGGER.info("Sherehe");
-            default:
-                LOGGER.info("Please specify a valid day");
+        switch (day) {
+            case "MONDAY" -> LOGGER.info("Monday working day");
+            case "TUESDAY" -> LOGGER.info("Tuesday working day");
+            case "WEDNESDAY" -> LOGGER.info("Wednesday working day");
+            case "THURSDAY" -> LOGGER.info("Thursday working day");
+            case "FRIDAY" -> LOGGER.info("Friday working day");
+            case "SATURDAY", "SUNDAY" -> LOGGER.info("Sherehe");
+            default -> LOGGER.info("Please specify a valid day");
 
         }
 
