@@ -1,6 +1,4 @@
-package com.systechafrica.part2;
-
-import com.systechafrica.atmmachine.ATMMachine;
+package com.systechafrica.part2.classes;
 
 import java.util.logging.Logger;
 
