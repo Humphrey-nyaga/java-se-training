@@ -12,8 +12,8 @@ public class Authentication {
 
 
     public boolean login() {
-        int loginTriesCount = 0;
-        while (loginTriesCount < 3) {
+        int loginTries = 0;
+        while (loginTries < 3) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter username: ");
             String username = scanner.nextLine();
@@ -24,7 +24,7 @@ public class Authentication {
                 return true;
             } else
                 System.out.println("Incorrect username or password!!");
-            loginTriesCount++;
+            loginTries++;
         }
         LOGGER.warning("Login Attempts Limit Exceeded!");
         return false;
