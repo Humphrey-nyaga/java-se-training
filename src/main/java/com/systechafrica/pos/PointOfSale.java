@@ -9,7 +9,7 @@ public class PointOfSale {
        if(authentication.login()){
            LOGGER.info("Successful Login");
        }else {
-           LOGGER.warning("Failed to Login");
+           System.exit(-1);
        }
     }
 }
