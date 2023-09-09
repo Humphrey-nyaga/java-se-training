@@ -31,6 +31,8 @@ public class Authentication {
             loginTriesCount++;
         }
         LOGGER.warning("Login Attempts Limit Exceeded!");
+        LOGGER.warning("User exceeded failed login limits!");
+
         return false;
     }
 }

@@ -40,6 +40,7 @@ public class Restaurant {
         System.out.println("*************************");
         System.out.println("Total: " + totalBill);
         return totalBill;
+
     }
 
     public void order() {
@@ -52,6 +53,7 @@ public class Restaurant {
             case 7 -> {
                 //If Quit option is chosen, check if orders is placed and bill before exit.
                 if (orderedMealsIDsList.isEmpty()) {
+                    LOGGER.info("User quit before placing an order");
                     System.exit(0);
                 } else {
                     payments(billing(orderedMealsIDsList));
@@ -66,8 +68,6 @@ public class Restaurant {
                 System.out.println("Meal ID is invalid!! Try Again");
                 order();
             }
-
-
         }
     }
 
@@ -102,6 +102,7 @@ public class Restaurant {
         }
 
         payment.close();
+        LOGGER.info("Payment for order completed Successfully");
     }
 
     public void menu() {
