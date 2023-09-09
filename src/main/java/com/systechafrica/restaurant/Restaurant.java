@@ -46,10 +46,30 @@ public class Restaurant {
         menu();
         System.out.println();
         System.out.print("Enter Your Meal/Drink Option: ");
-        int mealID = scanner.nextInt();
-        orderedMealsID.add(mealID);
-        scanner.nextLine();
-        prompt();
+        int option = scanner.nextInt();
+
+        switch (option) {
+            case 7 -> System.exit(0);
+            case 1, 2, 3, 4, 5, 6 -> {
+                orderedMealsID.add(option);
+                scanner.nextLine();
+                prompt();
+            }
+            default -> {
+                System.out.println("Meal ID is invalid!! Try Again");
+                order();
+            }
+
+
+        }
+/*        else if(option < 1 || option > 6){
+            System.out.println("Meal ID is invalid!! Try Again");
+            order();
+        } else {
+            orderedMealsID.add(option);
+            scanner.nextLine();
+            prompt();
+        } */
     }
 
     public void prompt() {
