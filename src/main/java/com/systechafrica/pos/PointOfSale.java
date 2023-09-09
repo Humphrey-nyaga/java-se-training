@@ -7,16 +7,34 @@ import java.util.logging.Logger;
 
 public class PointOfSale {
     private String currency = "KES";
+
+
     private static final Logger LOGGER = Logger.getLogger(PointOfSale.class.getName());
     Scanner scanner = new Scanner(System.in);
     private final List<Cart> cartList = new ArrayList<>();
 
-    private void printReceipt() {
+
+
+    private void payment(double totalBillAmount) {
+        System.out.print("\nEnter amount given by customer: ");
+        double amountGivenByCustomer = scanner.nextDouble();
+        if (amountGivenByCustomer < totalBillAmount) {
+            System.out.println("Invalid!!. Try a higher amount.");
+            System.out.println();
+            menu();
+        } else {
+            double balance = amountGivenByCustomer - totalBillAmount;
+            System.out.println("Change: " + balance);
+            System.out.println();
+            System.out.println("*****************************");
+            System.out.println("THANK YOU FOR SHOPPING WITH US");
+            System.out.println("*****************************");
+        }
     }
 
-    public void payment(List<Cart> cartList) {
-        System.out.println("Item Code   Quantity   Unit Price   Total Value");
+    public void billing(List<Cart> cartList) {
         double payableAmount = 0;
+        System.out.println("Item Code   Quantity   Unit Price   Total Value");
         for (Cart cart : cartList) {
             Item item = cart.getItem();
             int quantity = cart.getQuantity();
@@ -30,7 +48,7 @@ public class PointOfSale {
         System.out.printf("%s %.2f\n", currency,payableAmount);
 
         System.out.println("*************************************");
-
+        payment(payableAmount);
     }
 
 
@@ -55,7 +73,7 @@ public class PointOfSale {
 
             cartList.add(cart);
 
-            System.out.print("Do you wish to add another item (Y/N)? ");
+            System.out.print("Do you want to add another item (Y/N)? ");
             addMoreItemsOption = scanner.next().charAt(0);
         } while (addMoreItemsOption == 'Y' || addMoreItemsOption == 'y');
         menu();
@@ -73,7 +91,7 @@ public class PointOfSale {
         int option = scanner.nextInt();
         switch (option){
             case 1 -> addItem();
-            case 2 -> payment(cartList);
+            case 2 -> billing(cartList);
             case 3 -> printReceipt();
             default -> {
                 System.out.println("Invalid Option");
@@ -81,6 +99,9 @@ public class PointOfSale {
             }
         }
         scanner.nextLine();
+    }
+
+    private void printReceipt() {
     }
 
     public static void main(String[] args) {
