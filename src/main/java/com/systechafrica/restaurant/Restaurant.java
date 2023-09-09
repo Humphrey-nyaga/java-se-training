@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 public class Restaurant {
     private static final Logger LOGGER = Logger.getLogger(Restaurant.class.getName());
     private final Scanner scanner = new Scanner(System.in);
-    List<Integer> orderedMealsID = new ArrayList<>();
+    List<Integer> orderedMealsIDsList = new ArrayList<>();
 
     public double billing(List<Integer> mealsToBillList) {
 
@@ -49,9 +49,16 @@ public class Restaurant {
         int option = scanner.nextInt();
 
         switch (option) {
-            case 7 -> System.exit(0);
+            case 7 -> {
+                //If Quit option is chosen, check if orders is placed and bill before exit.
+                if (orderedMealsIDsList.isEmpty()) {
+                    System.exit(0);
+                } else {
+                    payments(billing(orderedMealsIDsList));
+                }
+            }
             case 1, 2, 3, 4, 5, 6 -> {
-                orderedMealsID.add(option);
+                orderedMealsIDsList.add(option);
                 scanner.nextLine();
                 prompt();
             }
@@ -62,14 +69,6 @@ public class Restaurant {
 
 
         }
-/*        else if(option < 1 || option > 6){
-            System.out.println("Meal ID is invalid!! Try Again");
-            order();
-        } else {
-            orderedMealsID.add(option);
-            scanner.nextLine();
-            prompt();
-        } */
     }
 
     public void prompt() {
@@ -82,7 +81,7 @@ public class Restaurant {
             System.out.print("Proceed to Payment(Y/N): ");
             Character proceedToPayment = scanner.next().charAt(0);
             if (proceedToPayment.equals('Y')) {
-                payments(billing(orderedMealsID));
+                payments(billing(orderedMealsIDsList));
             }
         }
 
@@ -95,7 +94,7 @@ public class Restaurant {
         if (cashGivenToPay < amountToPay) {
             System.out.println("Amount given cannot be less than the Bill provided!!. Try a higher amount.");
             System.out.println();
-            payments(billing(orderedMealsID));
+            payments(billing(orderedMealsIDsList));
         } else {
             double balance = cashGivenToPay - amountToPay;
             System.out.println("Your balance is: " + balance);
