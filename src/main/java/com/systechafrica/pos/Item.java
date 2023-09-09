@@ -11,6 +11,10 @@ public class Item {
         this.itemPrice = itemPrice;
     }
 
+    public Item() {
+
+    }
+
     public int getId() {
         return id;
     }
