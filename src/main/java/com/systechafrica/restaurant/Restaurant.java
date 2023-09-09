@@ -8,7 +8,7 @@ public class Restaurant {
     private final Scanner scanner = new Scanner(System.in);
     List<Integer> orderedMealsID = new ArrayList<>();
 
-    public void billing(List<Integer>mealsToBillList) {
+    public double billing(List<Integer> mealsToBillList) {
 
         List<Meal> mealsList = new ArrayList<>();
         mealsList.add(new Meal(1, "CHAI", 15));
@@ -19,7 +19,7 @@ public class Restaurant {
         mealsList.add(new Meal(6, "PILAU VEG", 90));
 
         List<String> orderedMeals = new ArrayList<>();
-        double totalPrice = 0;
+        double totalBill = 0;
 
         for (Integer orderedID : mealsToBillList) {
             for (Meal meal : mealsList) {
@@ -27,7 +27,7 @@ public class Restaurant {
                     String name = meal.getName();
                     double price = meal.getPrice();
                     orderedMeals.add(name + "\t" + price);
-                    totalPrice += price;
+                    totalBill += price;
                     break;
                 }
             }
@@ -37,37 +37,52 @@ public class Restaurant {
         for (String meal : orderedMeals) {
             System.out.println(meal);
         }
-        System.out.println("Total: " + totalPrice);
-
-
+        System.out.println("*************************");
+        System.out.println("Total: " + totalBill);
+        return totalBill;
     }
 
     public void order() {
         menu();
+        System.out.println();
         System.out.print("Enter Your Meal/Drink Option: ");
         int mealID = scanner.nextInt();
         orderedMealsID.add(mealID);
         scanner.nextLine();
-        userMenu();
+        prompt();
+    }
+
+    public void prompt() {
+        System.out.print("Do you want to enter another meal/drink option(Y/N): ");
+        Character orderAnotherMeal = scanner.next().charAt(0);
+        if (orderAnotherMeal.equals('Y')) {
+            order();
+        } else {
+            System.out.println("************************");
+            System.out.print("Proceed to Payment(Y/N): ");
+            Character proceedToPayment = scanner.next().charAt(0);
+            if (proceedToPayment.equals('Y')) {
+                payments(billing(orderedMealsID));
+            }
         }
 
-     public void userMenu(){
-         System.out.print("Do you want to enter another meal/drink option(Y/N): ");
-         Character orderAnotherMeal = scanner.next().charAt(0);
-         if(orderAnotherMeal.equals('Y')){
-             order();
-         } else{
-             System.out.print("Proceed to Payment(Y/N): ");
-             Character proceedToPayment = scanner.next().charAt(0);
-             if(proceedToPayment.equals('Y')){
-                 billing(orderedMealsID);
-             }
-         }
+    }
 
-     }
+    private void payments(double amountToPay) {
+        Scanner payment = new Scanner(System.in);
+        System.out.print("Enter amount to Pay: ");
+        double cashGivenToPay = payment.nextDouble();
+        if (cashGivenToPay < amountToPay) {
+            System.out.println("Amount given cannot be less than the Bill provided!!. Try a higher amount.");
+            System.out.println();
+            payments(billing(orderedMealsID));
+        } else {
+            double balance = cashGivenToPay - amountToPay;
+            System.out.println("Your balance is: " + balance);
+            System.out.println("*****************************");
+        }
 
-    private void payments() {
-
+        payment.close();
     }
 
     public void menu() {
@@ -89,11 +104,10 @@ public class Restaurant {
     public static void main(String[] args) {
         Authentication authentication = new Authentication();
         Restaurant restaurant = new Restaurant();
-        restaurant.order();
-//        if (authentication.login()) {
-//            restaurant.menu();
-//        } else {
-//            LOGGER.warning("Failed to Login");
-//        }
+        if (authentication.login()) {
+            restaurant.order();
+        } else {
+            LOGGER.warning("Failed to Login");
+        }
     }
 }
