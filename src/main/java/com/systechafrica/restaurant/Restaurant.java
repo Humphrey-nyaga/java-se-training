@@ -64,8 +64,7 @@ public class Restaurant {
                 prompt();
             }
             default -> {
-                System.out.println("Meal ID is invalid!! Try Again");
-                order();
+                System.out.println("invalid Option!! Try Again");
             }
         }
     }
