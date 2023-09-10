@@ -5,54 +5,37 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class PointOfSale {
-    private String currency = "KES";
-
-
-    private static final Logger LOGGER = Logger.getLogger(PointOfSale.class.getName());
-    Scanner scanner = new Scanner(System.in);
     private final List<Cart> cartList = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
+    private double totalBillAmount = 0;
+    private double amountGivenByCustomer = 0;
+    private double balance = 0;
+    public void menu() {
+        System.out.println("*********************");
+        System.out.println("SYSTECH POS SYSTEM");
+        System.out.println("*********************");
+        System.out.println(
+                """
+                        1. ADD ITEM\s
+                        2. MAKE PAYMENT\s
+                        3. PRINT RECEIPT
+                        """);
 
-
-
-    private void payment(double totalBillAmount) {
-        System.out.print("\nEnter amount given by customer: ");
-        double amountGivenByCustomer = scanner.nextDouble();
-        if (amountGivenByCustomer < totalBillAmount) {
-            System.out.println("Invalid!!. Try a higher amount.");
-            System.out.println();
-            menu();
-        } else {
-            double balance = amountGivenByCustomer - totalBillAmount;
-            System.out.println("Change: " + balance);
-            System.out.println();
-            System.out.println("*****************************");
-            System.out.println("THANK YOU FOR SHOPPING WITH US");
-            System.out.println("*****************************");
+        System.out.print("Choose an option: ");
+        int option = scanner.nextInt();
+        switch (option) {
+            case 1 -> addItem();
+            case 2 -> payment();
+            case 3 -> printReceipt();
+            default -> {
+                System.out.println("Invalid Option");
+                menu();
+            }
         }
+        scanner.nextLine();
     }
-
-    public void billing(@NotNull List<Cart> cartList) {
-        double payableAmount = 0;
-        System.out.println("Item Code   Quantity   Unit Price   Total Value");
-        for (Cart cart : cartList) {
-            Item item = cart.getItem();
-            int quantity = cart.getQuantity();
-            double unitPrice = item.getItemPrice();
-            double totalValue = unitPrice * quantity;
-            payableAmount += totalValue;
-
-            System.out.printf("%-11d %-10d  %s %-7.2f  %s %.2f%n", item.getId(), quantity, currency,unitPrice, currency,totalValue);
-        }
-        System.out.println("*************************************");
-        System.out.printf("%s %.2f\n", currency,payableAmount);
-
-        System.out.println("*************************************");
-        payment(payableAmount);
-    }
-
 
     private void addItem() {
         System.out.println("Add items to the cart:");
@@ -78,41 +61,88 @@ public class PointOfSale {
             System.out.print("Do you want to add another item (Y/N)? ");
             addMoreItemsOption = scanner.next().charAt(0);
         } while (addMoreItemsOption == 'Y' || addMoreItemsOption == 'y');
+        System.out.println();
         menu();
     }
-    public void menu(){
-        System.out.println("*********************");
-        System.out.println("SYSTECH POS SYSTEM");
-        System.out.println("*********************");
-        System.out.println(
-                "1. ADD ITEM \n" +
-                "2. MAKE PAYMENT \n" +
-                "3. PRINT RECEIPT\n");
 
-        System.out.println("Choose an option: ");
-        int option = scanner.nextInt();
-        switch (option){
-            case 1 -> addItem();
-            case 2 -> billing(cartList);
-            case 3 -> printReceipt();
-            default -> {
-                System.out.println("Invalid Option");
-                menu();
-            }
+    public double billing(@NotNull List<Cart> cartList) {
+        //System.out.printf("%-10s  %-10s  %-9s  %-12s  %-12s%n", "Item Code", "Item Name", "Quantity", "Unit Price", "Total Value");
+        for (Cart cart : cartList) {
+            Item item = cart.getItem();
+            int quantity = cart.getItemQuantity();
+            double unitPrice = item.getItemPrice();
+            double totalValue = unitPrice * quantity;
+            totalBillAmount += totalValue;
+
+            // System.out.printf("%-11d  %-10s  %4d  %12s  %12s%n", item.getId(), itemName, quantity, String.format("%.2f", unitPrice), String.format(" %.2f", totalValue));
         }
-        scanner.nextLine();
+        return (totalBillAmount);
+
+    }
+
+    private void payment() {
+        double billAmount = billing(cartList);
+        System.out.println(formatReceiptData(cartList));
+        System.out.println("*************************************");
+        String currency = "KES";
+        System.out.printf("%s %.2f\n", currency, billAmount);
+        System.out.println("*************************************");
+
+        System.out.print("Enter amount given by customer: ");
+        amountGivenByCustomer = scanner.nextDouble();
+        if (amountGivenByCustomer < billAmount) {
+            System.out.println("Invalid!!. Try a higher amount.");
+        } else {
+            balance = amountGivenByCustomer - billAmount;
+            System.out.println("Change: " + balance);
+            System.out.println();
+            System.out.println("*****************************");
+            System.out.println("THANK YOU FOR SHOPPING WITH US");
+            System.out.println("*****************************");
+        }
+        System.out.println();
+        menu();
+    }
+
+    public String formatReceiptData(@NotNull List<Cart> itemsInCartList) {
+        StringBuilder formattedReceiptData = new StringBuilder();
+        formattedReceiptData.append(String.format("%-10s  %-10s  %-9s  %-12s  %-12s%n", "Item Code", "Item Name", "Quantity", "Unit Price", "Total Value"));
+        for (Cart cart : itemsInCartList) {
+            Item item = cart.getItem();
+            int quantity = cart.getItemQuantity();
+            String itemName = item.getItemName();
+            double unitPrice = item.getItemPrice();
+            double totalValue = unitPrice * quantity;
+            formattedReceiptData.append(String.format("%-11d  %-10s  %4d  %12s  %12s%n", item.getId(), itemName, quantity, String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
+        }
+        return formattedReceiptData.toString();
     }
 
     private void printReceipt() {
+
+        double billAmount = totalBillAmount;
+        System.out.println("**************RECEIPT********************");
+        System.out.println(formatReceiptData(cartList));
+        System.out.println("Total: KES " + billAmount);
+        System.out.println("Cash Given: KES " + amountGivenByCustomer);
+        System.out.println("Balance: KES " + balance);
+        System.out.println("***********************************");
+        System.out.println("THANK YOU FOR SHOPPING WITH SYSTECH");
+        System.out.println("***********************************");
+        System.out.println();
+        menu();
     }
 
     public static void main(String[] args) {
         PointOfSale pos = new PointOfSale();
         Authentication authentication = new Authentication();
-       if(authentication.login()){
-           pos.menu();
-       }else {
-           System.exit(-1);
-       }
+        pos.menu();
+
+        if (authentication.login()) {
+            pos.menu();
+        } else {
+            System.exit(-1);
+        }
     }
+
 }

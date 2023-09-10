@@ -2,12 +2,12 @@ package com.systechafrica.pos;
 
 public class Cart {
     Item item;
-    private int quantity;
+    private int itemQuantity;
 
 
-    public Cart(Item item, int quantity) {
+    public Cart(Item item, int itemQuantity) {
         this.item = item;
-        this.quantity = quantity;
+        this.itemQuantity = itemQuantity;
     }
 
     public Item getItem() {
@@ -18,12 +18,12 @@ public class Cart {
         this.item = item;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getItemQuantity() {
+        return itemQuantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
     }
 
 
