@@ -2,12 +2,10 @@ package com.systechafrica.pos;
 
 public class Item {
     private int id;
-    private String itemName;
     private double itemPrice;
 
-    public Item(int id, String itemName, double itemPrice) {
+    public Item(int id, double itemPrice) {
         this.id = id;
-        this.itemName = itemName;
         this.itemPrice = itemPrice;
     }
 
@@ -23,13 +21,7 @@ public class Item {
         this.id = id;
     }
 
-    public String getItemName() {
-        return itemName;
-    }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
 
     public double getItemPrice() {
         return itemPrice;
@@ -43,7 +35,6 @@ public class Item {
     public String toString() {
         return "Item{" +
                 "id=" + id +
-                ", itemName='" + itemName + '\'' +
                 ", itemPrice=" + itemPrice +
                 '}';
     }

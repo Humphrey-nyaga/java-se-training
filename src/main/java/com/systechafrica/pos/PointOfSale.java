@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class PointOfSale {
     private List<Cart> cartList = new ArrayList<>();
 
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
     private double totalBillAmount = 0;
     private double amountGivenByCustomer = 0;
     private double balance = 0;
@@ -20,23 +20,10 @@ public class PointOfSale {
         System.out.println("*********************");
         System.out.println(
                 """
-                        1. ADD ITEM\s
-                        2. MAKE PAYMENT\s
+                        1. ADD ITEM
+                        2. MAKE PAYMENT
                         3. PRINT RECEIPT
                         """);
-
-        System.out.print("Choose an option: ");
-        int option = scanner.nextInt();
-        switch (option) {
-            case 1 -> addItem();
-            case 2 -> payment();
-            case 3 -> printReceipt();
-            default -> {
-                System.out.println("Invalid Option");
-                menu();
-            }
-        }
-        scanner.nextLine();
     }
 
     private void addItem() {
@@ -48,15 +35,13 @@ public class PointOfSale {
             int itemCode;
             itemCode = scanner.nextInt();
             scanner.nextLine();
-            System.out.print("Enter Item Name: ");
-            String itemName = scanner.nextLine();
             System.out.print("Enter Item price: ");
             double itemPrice = scanner.nextDouble();
             System.out.print("Enter Item quantity: ");
             int quantity = scanner.nextInt();
             scanner.nextLine();
 
-            Item item = new Item(itemCode, itemName, itemPrice);
+            Item item = new Item(itemCode, itemPrice);
             Cart cart = new Cart(item, quantity);
 
             cartList.add(cart);
@@ -65,7 +50,6 @@ public class PointOfSale {
             addMoreItemsOption = scanner.next().charAt(0);
         } while (addMoreItemsOption == 'Y' || addMoreItemsOption == 'y');
         System.out.println();
-        menu();
     }
 
     public double billing(@NotNull List<Cart> cartList) {
@@ -113,20 +97,18 @@ public class PointOfSale {
             }
         }
         System.out.println();
-        menu();
 
     }
 
     public String formatReceiptData(@NotNull List<Cart> itemsInCartList) {
         StringBuilder formattedReceiptData = new StringBuilder();
-        formattedReceiptData.append(String.format("%-10s  %-10s  %-9s  %-12s  %-12s%n", "Item Code", "Item Name", "Quantity", "Unit Price", "Total Value"));
+        formattedReceiptData.append(String.format("%-10s  %-9s  %-12s  %-12s%n", "Item Code", "Quantity", "Unit Price", "Total Value"));
         for (Cart cart : itemsInCartList) {
             Item item = cart.getItem();
             int quantity = cart.getItemQuantity();
-            String itemName = item.getItemName();
             double unitPrice = item.getItemPrice();
             double totalValue = unitPrice * quantity;
-            formattedReceiptData.append(String.format("%-11d  %-10s  %4d  %12s  %12s%n", item.getId(), itemName, quantity, String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
+            formattedReceiptData.append(String.format("%-11d  %4d  %12s  %12s%n", item.getId(), quantity, String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
         }
         return formattedReceiptData.toString();
     }
@@ -147,17 +129,33 @@ public class PointOfSale {
             System.out.println();
         }
         cartList.clear();
-        menu();
     }
 
     public static void main(String[] args) {
         PointOfSale pos = new PointOfSale();
         Authentication authentication = new Authentication();
-        if (authentication.login()) {
-            pos.menu();
-        } else {
-            System.exit(-1);
+        boolean loggedIn = authentication.login();
+        if (loggedIn) {
+            System.out.println("Logged in successfully");
+            while (true) {
+                pos.menu();
+                try {
+                    System.out.print("Choose an option: ");
+                    int option = scanner.nextInt();
+                    switch (option) {
+                        case 1 -> pos.addItem();
+                        case 2 -> pos.payment();
+                        case 3 -> pos.printReceipt();
+                        default -> System.out.println("Invalid Option");
+                    }
+                    scanner.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Only Integers are allowed!!");
+                    scanner.close();
+                    System.exit(-1);
+                }
+            }
         }
-    }
 
+    }
 }
