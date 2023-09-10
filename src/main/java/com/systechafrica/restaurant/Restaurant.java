@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public class Restaurant {
     private static final Logger LOGGER = Logger.getLogger(Restaurant.class.getName());
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     List<Integer> orderedMealsIDsList = new ArrayList<>();
 
     public double billing(List<Integer> mealsToBillList) {
@@ -44,7 +44,6 @@ public class Restaurant {
     }
 
     public void order() {
-        menu();
         System.out.println();
         System.out.print("Enter Your Meal/Drink Option: ");
         int option = scanner.nextInt();
@@ -124,8 +123,18 @@ public class Restaurant {
     public static void main(String[] args) {
         Authentication authentication = new Authentication();
         Restaurant restaurant = new Restaurant();
-        if (authentication.login()) {
-            restaurant.order();
+        boolean loggedIn = authentication.login();
+        if (loggedIn) {
+            System.out.println("Logged in successfully");
+            while (true) {
+                try {
+                    restaurant.menu();
+                    restaurant.order();
+                } catch (Exception e) {
+                    scanner.close();
+                    System.exit(-1);
+                }
+            }
         } else {
             LOGGER.warning("Failed to Login");
         }
