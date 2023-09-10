@@ -1,5 +1,7 @@
 package com.systechafrica.pos;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +34,7 @@ public class PointOfSale {
         }
     }
 
-    public void billing(List<Cart> cartList) {
+    public void billing(@NotNull List<Cart> cartList) {
         double payableAmount = 0;
         System.out.println("Item Code   Quantity   Unit Price   Total Value");
         for (Cart cart : cartList) {
