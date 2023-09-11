@@ -8,7 +8,8 @@ import java.util.Scanner;
 
 public class PointOfSale {
     private List<Cart> cartList = new ArrayList<>();
-
+    private List<Cart> receiptItemsList = new ArrayList<>();
+    private double receiptBillAmount =0;
     static Scanner scanner = new Scanner(System.in);
     private double totalBillAmount = 0;
     private double amountGivenByCustomer = 0;
@@ -52,7 +53,7 @@ public class PointOfSale {
         System.out.println();
     }
 
-    public double billing(@NotNull List<Cart> cartList) {
+    public void billing(@NotNull List<Cart> cartList) {
         //System.out.printf("%-10s  %-10s  %-9s  %-12s  %-12s%n", "Item Code", "Item Name", "Quantity", "Unit Price", "Total Value");
         for (Cart cart : cartList) {
             Item item = cart.getItem();
@@ -63,19 +64,18 @@ public class PointOfSale {
 
             // System.out.printf("%-11d  %-10s  %4d  %12s  %12s%n", item.getId(), itemName, quantity, String.format("%.2f", unitPrice), String.format(" %.2f", totalValue));
         }
-        return (totalBillAmount);
-
     }
 
-    public boolean isCartEmpty() {
-        return cartList.isEmpty();
+    public boolean isCartEmpty(List<Cart> cart) {
+        return cart.isEmpty();
     }
 
     private void payment() {
-        double billAmount = billing(cartList);
-        if (isCartEmpty()) {
+        if (isCartEmpty(cartList)) {
             System.out.println("Please add items first to the Cart!!");
         } else {
+            billing(cartList);
+            double billAmount = totalBillAmount;
             System.out.println(formatReceiptData(cartList));
             System.out.println("*************************************");
             String currency = "KES";
@@ -94,6 +94,17 @@ public class PointOfSale {
                 System.out.println("THANK YOU FOR SHOPPING WITH US");
                 System.out.println("*****************************");
                 System.out.println();
+                /*
+                 *We need to copy the current list @cartList before we clear it
+                 * so that incase a user opts to print a receipt, we use the @receiptItemsList
+                 * and if they do not print they receipt and decide to add a new item for new customer
+                 * we find the @cartList empty
+                 * */
+                receiptItemsList.clear();
+                receiptItemsList =List.copyOf(cartList);
+                receiptBillAmount = totalBillAmount;
+                totalBillAmount = 0;
+                cartList.clear();
             }
         }
         System.out.println();
@@ -114,12 +125,12 @@ public class PointOfSale {
     }
 
     private void printReceipt() {
-        if (isCartEmpty()) {
+        if (isCartEmpty(receiptItemsList)) {
             System.out.println("Please add items first to the Cart!!");
         } else {
-            double billAmount = totalBillAmount;
+            double billAmount = receiptBillAmount;
             System.out.println("**************RECEIPT********************");
-            System.out.println(formatReceiptData(cartList));
+            System.out.println(formatReceiptData(receiptItemsList));
             System.out.println("Total: KES " + billAmount);
             System.out.println("Cash Given: KES " + amountGivenByCustomer);
             System.out.println("Balance: KES " + balance);
@@ -128,7 +139,7 @@ public class PointOfSale {
             System.out.println("***********************************");
             System.out.println();
         }
-        cartList.clear();
+        receiptItemsList.clear();
     }
 
     public static void main(String[] args) {
