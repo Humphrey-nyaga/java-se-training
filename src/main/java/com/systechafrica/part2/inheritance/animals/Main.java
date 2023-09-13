@@ -1,4 +1,4 @@
-package com.systechafrica.part2.inheritance.polymorphism;
+package com.systechafrica.part2.inheritance.animals;
 
 public class Main {
     public static void main(String[] args) {
