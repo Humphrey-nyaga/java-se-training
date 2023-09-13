@@ -1,4 +1,4 @@
-package com.systechafrica.part2.polymorphism;
+package com.systechafrica.part2.inheritance.polymorphism;
 
 public class Dog extends Animal{
     @Override

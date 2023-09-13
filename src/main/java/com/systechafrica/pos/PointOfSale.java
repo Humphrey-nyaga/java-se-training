@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class PointOfSale {
     private List<Cart> cartList = new ArrayList<>();
-    private List<Cart> receiptItemsList = new ArrayList<>();
+    private List<Cart> receiptItemsList =new ArrayList<>();
     private double receiptBillAmount =0;
     static Scanner scanner = new Scanner(System.in);
     private double totalBillAmount = 0;
@@ -101,7 +101,7 @@ public class PointOfSale {
                  * we find the @cartList empty
                  * */
                 receiptItemsList.clear();
-                receiptItemsList =List.copyOf(cartList);
+                receiptItemsList = new ArrayList<>(List.copyOf(cartList));
                 receiptBillAmount = totalBillAmount;
                 totalBillAmount = 0;
                 cartList.clear();
@@ -160,7 +160,8 @@ public class PointOfSale {
                         default -> System.out.println("Invalid Option");
                     }
                     scanner.nextLine();
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     System.out.println("Only Integers are allowed!!");
                     scanner.close();
                     System.exit(-1);
