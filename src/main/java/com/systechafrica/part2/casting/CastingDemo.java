@@ -12,7 +12,6 @@ public class CastingDemo {
         app.printInfo(animal);
         app.printInfo(animal2);
 
-
     }
     public void printInfo(Animal animal){
         if(animal instanceof Dog dog){
