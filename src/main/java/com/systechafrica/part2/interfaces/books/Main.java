@@ -18,8 +18,11 @@ public class Main {
         Book book5 = new Book("978-1400030651", "The Kite Runner", "Khaled Hosseini");
         bookControllerImpl.createBook(book5);
 
+        //bookControllerImpl.findAllBooks();
+        bookControllerImpl.deleteBook("978-1400030651");
+        bookControllerImpl.updateBook("978-0451524935","Hello World, New Book Name");
+        System.out.println(bookControllerImpl.findBook("978-0345342966"));
         bookControllerImpl.findAllBooks();
-        System.out.println(bookControllerImpl.findBook("978-0901524935"));
 
     }
 }
