@@ -19,6 +19,7 @@ public class Main {
         bookControllerImpl.createBook(book5);
 
         bookControllerImpl.findAllBooks();
+        System.out.println(bookControllerImpl.findBook("978-0901524935"));
 
     }
 }

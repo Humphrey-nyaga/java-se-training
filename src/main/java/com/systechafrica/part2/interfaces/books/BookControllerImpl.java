@@ -2,6 +2,7 @@ package com.systechafrica.part2.interfaces.books;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BookControllerImpl implements BookController{
@@ -20,8 +21,13 @@ public class BookControllerImpl implements BookController{
     }
 
     @Override
-    public Book findBook(String isbn) {
-        return null;
+    public Optional<Book> findBook(String isbn) {
+        for (Book book : books) {
+            if (book.getIsbn().equals(isbn)) {
+                return Optional.of(book);
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
