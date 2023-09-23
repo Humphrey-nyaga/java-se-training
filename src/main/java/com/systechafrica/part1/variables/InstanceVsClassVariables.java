@@ -16,7 +16,7 @@ public class InstanceVsClassVariables {
     }
     public static void main(String[] args) {
         SampleClass app = new SampleClass();
-        //?Access the class variables from a different class
+        //?Acces s the class variables from a different class
         System.out.println("Class variable: " + SampleClass.name);
 
         //? Access an instance variables from a different class
