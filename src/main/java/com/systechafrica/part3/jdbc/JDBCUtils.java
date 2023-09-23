@@ -29,14 +29,9 @@ public class JDBCUtils {
 
         }
     }*/
-    public static Connection connect(){
-        try {
+    public static Connection connect() throws SQLException, ClassNotFoundException {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
     public static void createTable()  {
         try {
@@ -54,13 +49,13 @@ public class JDBCUtils {
             preparedStatement.executeUpdate();
             LOGGER.info("Table  customer created successfully...");
             conn.close();
-        }catch (SQLException e) {
-            LOGGER.info("Database Error " + e.getMessage() + "\n");
+        }catch (ClassNotFoundException | SQLException e) {
+            LOGGER.info("An error was encountered: " + e.getMessage() + "\n");
 
         }
     }
 
-    public static int insertDataToDatabase(Customer customer){
+    public static boolean insertDataToDatabase(Customer customer){
         String insertQuery = "INSERT INTO customer(firstname, lastname, address, contact, email) VALUES (?,?,?,?,?);";
 
         try {
@@ -71,15 +66,27 @@ public class JDBCUtils {
             preparedStatement.setString(3, customer.getAddress());
             preparedStatement.setString(4, customer.getContact());
             preparedStatement.setString(5, customer.getEmail());
-            int rows =  preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             LOGGER.info("Customer added into the database correctly...");
             conn.close();
-            return rows;
-        }catch (SQLException e) {
+            return true;
+        }catch (SQLException | ClassNotFoundException e) {
             LOGGER.info("Database Error " + e.getMessage() + "\n");
         }
         LOGGER.info(" Customer Insert Into Database Failed... ");
-        return -1;
+        return false;
+    }
+
+    //TODO -> Complete the deleteCustomerBy Email method and add an update by ID
+    public void deleteCustomerByEmail(String email){
+        String deleteQuery = "DELETE FROM customer WHERE email = '';";
+        try {
+            Connection conn = connect();
+
+        }catch (SQLException | ClassNotFoundException e){
+            LOGGER.info("Error Deleting Customer with email" + email);
+
+        }
     }
 
     public static void main(String[] args) {
