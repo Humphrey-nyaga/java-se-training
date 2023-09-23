@@ -21,12 +21,14 @@ public class Authentication {
             String password = scanner.nextLine();
 
             if (username.equals(DB_USERNAME) && password.equals(DB_PASSWORD)) {
+                LOGGER.info("Login attempt from: " + DB_USERNAME + "successful \n");
                 return true;
+
             } else
                 System.out.println("Incorrect username or password!!");
             loginTries++;
         }
-        LOGGER.warning("Login Attempts Limit Exceeded!");
+        LOGGER.warning("Login Attempts Limit Exceeded by user: " + DB_USERNAME + "\n");
         return false;
     }
 }

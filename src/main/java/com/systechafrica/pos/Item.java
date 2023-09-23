@@ -1,6 +1,10 @@
 package com.systechafrica.pos;
 
+import java.util.logging.Logger;
+
 public class Item {
+    private static final Logger LOGGER = Logger.getLogger(Item.class.getName());
+
     private int id;
     private double itemPrice;
 

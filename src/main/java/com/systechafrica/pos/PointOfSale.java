@@ -1,12 +1,20 @@
 package com.systechafrica.pos;
 
+import com.systechafrica.part2.logging.CustomLogFormatter;
+import com.systechafrica.part2.logging.LoggingDemo;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 public class PointOfSale {
+    private static final Logger LOGGER = Logger.getLogger(PointOfSale.class.getName());
+
+
     private List<Cart> cartList = new ArrayList<>();
     private List<Cart> receiptItemsList =new ArrayList<>();
     private double receiptBillAmount =0;
@@ -64,6 +72,8 @@ public class PointOfSale {
 
             // System.out.printf("%-11d  %-10s  %4d  %12s  %12s%n", item.getId(), itemName, quantity, String.format("%.2f", unitPrice), String.format(" %.2f", totalValue));
         }
+        LOGGER.info("Billing successful \n");
+
     }
 
     public boolean isCartEmpty(List<Cart> cart) {
@@ -94,6 +104,7 @@ public class PointOfSale {
                 System.out.println("THANK YOU FOR SHOPPING WITH US");
                 System.out.println("*****************************");
                 System.out.println();
+
                 /*
                  *We need to copy the current list @cartList before we clear it
                  * so that incase a user opts to print a receipt, we use the @receiptItemsList
@@ -128,6 +139,7 @@ public class PointOfSale {
         if (isCartEmpty(receiptItemsList)) {
             System.out.println("Please add items first to the Cart!!");
         } else {
+
             double billAmount = receiptBillAmount;
             System.out.println("**************RECEIPT********************");
             System.out.println(formatReceiptData(receiptItemsList));
@@ -138,11 +150,18 @@ public class PointOfSale {
             System.out.println("THANK YOU FOR SHOPPING WITH SYSTECH");
             System.out.println("***********************************");
             System.out.println();
+            LOGGER.info("Printing Receipt Completed...\n");
+
         }
         receiptItemsList.clear();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        FileHandler fileHandler = new FileHandler("log.txt");
+        CustomLogFormatter formatter = new CustomLogFormatter();
+        LOGGER.addHandler(fileHandler);
+        fileHandler.setFormatter(formatter);
+
         PointOfSale pos = new PointOfSale();
         Authentication authentication = new Authentication();
         boolean loggedIn = authentication.login();
@@ -162,9 +181,9 @@ public class PointOfSale {
                     scanner.nextLine();
                 }
                 catch (Exception e) {
-                    System.out.println("Only Integers are allowed!!");
                     scanner.close();
                     System.exit(-1);
+                    LOGGER.severe("Internal Error: " + e.getMessage() + "\n");
                 }
             }
         }
