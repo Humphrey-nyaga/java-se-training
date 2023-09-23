@@ -7,3 +7,4 @@ CREATE TABLE customer(
     address VARCHAR(128),
     contact VARCHAR(128),
     email VARCHAR(128));
+
