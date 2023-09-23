@@ -1,6 +1,6 @@
 package com.systechafrica.atmmachine;
 
-import com.systechafrica.constant.Constants;
+import com.systechafrica.part1.constant.Constants;
 
 import java.util.Scanner;
 import java.util.logging.Logger;

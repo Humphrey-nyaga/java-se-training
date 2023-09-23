@@ -1,12 +1,12 @@
 package com.systechafrica.part2.inheritance.polymorphism;
 
+import com.systechafrica.part2.inheritance.protectedaccessmodifier.nomenclature.genus.Genus;
+import com.systechafrica.part2.inheritance.protectedaccessmodifier.nomenclature.kingdom.Kingdom;
+import com.systechafrica.part2.inheritance.protectedaccessmodifier.nomenclature.species.Species;
 import com.systechafrica.part2.inheritance.company.DatabaseEngineer;
 import com.systechafrica.part2.inheritance.company.Employee;
 import com.systechafrica.part2.inheritance.company.QualityAssurance;
 import com.systechafrica.part2.inheritance.company.SoftwareEngineer;
-import com.systechafrica.part2.inheritance.protectedaccessmodifier.nomenclature.genus.Genus;
-import com.systechafrica.part2.inheritance.protectedaccessmodifier.nomenclature.kingdom.Kingdom;
-import com.systechafrica.part2.inheritance.protectedaccessmodifier.nomenclature.species.Species;
 
 public class PolyMorphismDemo {
     public static void main(String[] args) {

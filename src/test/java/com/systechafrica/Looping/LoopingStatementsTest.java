@@ -1,6 +1,6 @@
 package com.systechafrica.Looping;
 
-import com.systechafrica.looping.LoopingStatements;
+import com.systechafrica.part1.looping.LoopingStatements;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

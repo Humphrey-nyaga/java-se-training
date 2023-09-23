@@ -1,7 +1,5 @@
 package com.systechafrica.atmmachine;
 
-import com.systechafrica.constant.Constants;
-
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -26,7 +24,7 @@ public class ATMMachine2 {
                 loggedIn = true;
                 break;
             }
-            System.out.println("Wrong password.");
+            LOGGER.info("Wrong password.");
             loginTries++;
         }
         return loggedIn;
@@ -40,11 +38,12 @@ public class ATMMachine2 {
         System.out.println("************ATM SERVICES**************");
         System.out.println("______________________________________");
         System.out.println(
-                "1. Check Balance\n" +
-                        "2. Deposit\n" +
-                        "3. Withdraw\n" +
-                        "4. Transfer Cash\n" +
-                        "5. Quit");
+                """
+                        1. Check Balance
+                        2. Deposit
+                        3. Withdraw
+                        4. Transfer Cash
+                        5. Quit""");
         System.out.println("\n");
     }
 
@@ -81,7 +80,7 @@ public class ATMMachine2 {
             runningBalance -= transactionCost;
             System.out.println("\nAmount withdrawn successfully is: " + withdrawAmount);
             System.out.println("Transaction charge is: " + transactionCost);
-            System.out.println("Account balance is: " + runningBalance + "");
+            System.out.println("Account balance is: " + runningBalance + " ");
         }
     }
 
@@ -106,24 +105,12 @@ public class ATMMachine2 {
                   System.out.print("Choose your option: ");
                   int option = app.scanner.nextInt();
                   switch (option) {
-                      case 1:
-                          app.checkBalance();
-                          break;
-                      case 2:
-                          app.performDeposit();
-                          break;
-                      case 3:
-                          app.performWithdrawal();
-                          break;
-                      case 4:
-                          app.performTransfer();
-                          break;
-                      case 5:
-                          keepShowingMenu = false;
-                          break;
-                      default:
-                          System.out.println("Invalid option...Try Again!");
-                          break;
+                      case 1 -> app.checkBalance();
+                      case 2 -> app.performDeposit();
+                      case 3 -> app.performWithdrawal();
+                      case 4 -> app.performTransfer();
+                      case 5 -> keepShowingMenu = false;
+                      default -> System.out.println("Invalid option...Try Again!");
                   }
               }catch (Exception e){
                 app.scanner.nextLine();

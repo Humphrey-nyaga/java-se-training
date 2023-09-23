@@ -1,7 +1,5 @@
 package com.systechafrica;
 
-import com.systechafrica.variables.VariablesDemo;
-
 import java.util.logging.Logger;
 
 public class App {

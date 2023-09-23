@@ -1,7 +1,7 @@
 
 package com.systechafrica;
 
-import com.systechafrica.LeapYear.LeapYear;
+import com.systechafrica.part1.LeapYear.LeapYear;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

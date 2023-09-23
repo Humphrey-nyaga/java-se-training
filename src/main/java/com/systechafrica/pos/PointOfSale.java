@@ -1,7 +1,6 @@
 package com.systechafrica.pos;
 
-import com.systechafrica.part2.logging.CustomLogFormatter;
-import com.systechafrica.part2.logging.LoggingDemo;
+import com.systechafrica.part3.logging.CustomLogFormatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
