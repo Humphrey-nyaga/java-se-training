@@ -129,12 +129,65 @@ public class JDBCUtils {
         }
     }
 
+    public static void findAllCustomers() {
+        String selectQuery = "SELECT * FROM customer;";
+        try {
+            Connection conn = connect();
+            assert conn != null;
+            PreparedStatement preparedStatement = conn.prepareStatement(selectQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                String address = resultSet.getString("address");
+                String contact = resultSet.getString("contact");
+                String email = resultSet.getString("email");
+                Customer customer = new Customer(id, firstname, lastname, address, contact, email);
+                System.out.println(customer);
+            }
+        } catch (SQLException ex) {
+            LOGGER.info("Error retrieving customers: " + ex.getMessage());
+        }
+    }
+
+    public static void findCustomerByEmail(String custEmail) {
+        String selectQuery = "SELECT * FROM customer WHERE email = ?;";
+        try {
+            Connection conn = connect();
+            assert conn != null;
+            PreparedStatement selectCustomerByEmailStatement = conn.prepareStatement(selectQuery);
+            selectCustomerByEmailStatement.setString(1, custEmail);
+            ResultSet rs = selectCustomerByEmailStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String firstname = rs.getString("firstname");
+                String lastname = rs.getString("lastname");
+                String address = rs.getString("address");
+                String contact = rs.getString("contact");
+                String email = rs.getString("email");
+                Customer customer = new Customer(id, firstname, lastname, address, contact, email);
+                System.out.println(customer);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.info("Error retrieving customer by email: " + ex.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         createTable();
-        Customer customer = new Customer("John", "Doe", "123 Elm St", "555-123-4567", "john@example.com");
-        insertDataToDatabase(customer);
-        deleteCustomerByEmail("john@example.com");
+        Customer customer1 = new Customer("John", "Doe", "123 Elm St", "555-123-4567", "john@example.com");
+        insertDataToDatabase(customer1);
+        //deleteCustomerByEmail("john@example.com");
+        Customer customer2 = new Customer("Alice", "Smith", "456 Oak St", "555-987-6543", "alice@example.com");
+        insertDataToDatabase(customer2);
+        Customer customer3 = new Customer("Bob", "Johnson", "789 Maple St", "555-567-8901", "bob@example.com");
+        insertDataToDatabase(customer3);
+        Customer customer4 = new Customer("Eve", "Brown", "321 Birch St", "555-345-6789", "eve@example.com");
+        insertDataToDatabase(customer4);
+        Customer customer5 = new Customer("Charlie", "Wilson", "654 Pine St", "555-234-5678", "charlie@example.com");
+        insertDataToDatabase(customer5);
 
     }
 }
