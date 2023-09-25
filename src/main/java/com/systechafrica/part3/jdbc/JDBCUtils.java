@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 public class JDBCUtils {
     private static final Logger LOGGER = Logger.getLogger(JDBCUtils.class.getName());
 
-    private static final String URL = "jdbc:mysql://localhost:3306/javase";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "@Myadmin123";
+    private static final String URL = "jdbc:mysql://localhost:3308/javase";
+    private static final String USERNAME = "javase";
+    private static final String PASSWORD = "javase";
 
     /*public static void createDatabase(String databaseName)  {
         try {
@@ -176,7 +176,7 @@ public class JDBCUtils {
     }
 
     public static void main(String[] args) {
-        createTable();
+      //  createTable();
         Customer customer1 = new Customer("John", "Doe", "123 Elm St", "555-123-4567", "john@example.com");
         insertDataToDatabase(customer1);
         //deleteCustomerByEmail("john@example.com");

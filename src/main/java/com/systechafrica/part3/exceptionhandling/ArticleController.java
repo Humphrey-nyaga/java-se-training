@@ -12,19 +12,21 @@ public class ArticleController {
         return seq.incrementAndGet();
     }
 
-    public boolean addArticle(Article article){
-        article.setId(idGenerator());
-        return articleList.add(article);
-    }
+//    public boolean addArticle(Article article){
+//        article.setId(idGenerator());
+//        if(articleList.add(article)){
+//            throw  new ErrorAddingNewArticle("Article with name: " + article);
+//        }
+//    }
 
     public Optional<Article> findArticleByName(String name){
         return Optional.of(articleList.stream().filter(article->name.equals(article.getName()))
                 .findFirst()
-                .orElseThrow(()->new ArticleNotFoundException("Article with name " + name + "does not exist")));
+                .orElseThrow(()->new ArticleNotFoundException("Article with name: " + name + " does not exist")));
     }
     public Optional<Article> findArticleById(int id){
         return Optional.of(articleList.stream().filter(article -> id == article.getId())
                 .findFirst()
-                .orElseThrow(() -> new ArticleNotFoundException("Article with ID " + id + " not found")));
+                .orElseThrow(() -> new ArticleNotFoundException("Article with ID: " + id + " not found")));
     }
 }
