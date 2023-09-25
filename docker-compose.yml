@@ -1,0 +1,35 @@
+services:
+  javase:
+    image: mysql:latest
+    restart: always
+    container_name: javase
+    environment:
+      MYSQL_DATABASE: 'javase'
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      # HOST-PORT:CONTAINER-PORT
+      - '3308:3306'
+    expose:
+      - '3306'
+      - '3308'
+    volumes:
+      - my-db:/var/lib/mysql
+  javase-postgres:
+    image: postgres:latest
+    container_name: javase-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - '5432:5432'
+    expose:
+      - '3306'
+    volumes:
+      - javase-postgres:/var/lib/postgresql/data
+volumes:
+  my-db:
+  javase-postgres:

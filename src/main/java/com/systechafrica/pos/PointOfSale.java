@@ -31,6 +31,7 @@ public class PointOfSale {
                         1. ADD ITEM
                         2. MAKE PAYMENT
                         3. PRINT RECEIPT
+                        4. QUIT
                         """);
     }
 
@@ -175,6 +176,7 @@ public class PointOfSale {
                         case 1 -> pos.addItem();
                         case 2 -> pos.payment();
                         case 3 -> pos.printReceipt();
+                        case 4 -> System.exit(-1);
                         default -> System.out.println("Invalid Option");
                     }
                     scanner.nextLine();
