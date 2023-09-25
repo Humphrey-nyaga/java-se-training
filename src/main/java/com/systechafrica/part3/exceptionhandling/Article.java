@@ -59,12 +59,12 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", datePublished=" + datePublished +
-                ", content='" + content + '\'' +
-                '}';
+        return "Article[" + "\n" +
+                "ID=" + id + "\n" +
+                "Name='" + name + '\'' + "\n" +
+                "Description='" + description + '\'' +"\n" +
+                "DatePublished=" + datePublished + "\n" +
+                "Content='" + content + '\'' + "\n" +
+                ']';
     }
 }

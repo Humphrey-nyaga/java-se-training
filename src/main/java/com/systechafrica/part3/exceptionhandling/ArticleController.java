@@ -1,5 +1,6 @@
 package com.systechafrica.part3.exceptionhandling;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,12 +13,14 @@ public class ArticleController {
         return seq.incrementAndGet();
     }
 
-//    public boolean addArticle(Article article){
-//        article.setId(idGenerator());
-//        if(articleList.add(article)){
-//            throw  new ErrorAddingNewArticle("Article with name: " + article);
-//        }
-//    }
+    public boolean addArticle(Article article){
+        if(article!= null){
+        article.setId(idGenerator());
+       return articleList.add(article);
+        }else{
+            throw  new ErrorAddingNewArticleException("Article cannot be null: ");
+        }
+    }
 
     public Optional<Article> findArticleByName(String name){
         return Optional.of(articleList.stream().filter(article->name.equals(article.getName()))
@@ -28,5 +31,8 @@ public class ArticleController {
         return Optional.of(articleList.stream().filter(article -> id == article.getId())
                 .findFirst()
                 .orElseThrow(() -> new ArticleNotFoundException("Article with ID: " + id + " not found")));
+    }
+    public List<Article> findAllArticles(){
+        return articleList;
     }
 }
