@@ -58,10 +58,9 @@ public class ExceptionDemo {
             System.out.println("---------------All Articles---------------");
             List<Article> articles = articleController.findAllArticles();
             System.out.println(articles);
-
+            articleController.deleteArticleById(20);
             Optional<Article> articleNotFoundById = articleController.findArticleById(90);
             Optional<Article> articleNotFoundByEmail = articleController.findArticleByName("Hello World");
-
 
         }catch (Exception ex){
             LOGGER.info("Error Encountered: " + ex.getMessage());

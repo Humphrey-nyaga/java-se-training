@@ -18,7 +18,7 @@ public class ArticleController {
         article.setId(idGenerator());
        return articleList.add(article);
         }else{
-            throw  new ErrorAddingNewArticleException("Article cannot be null: ");
+            throw  new NewArticleCannotBeAddedException("Article cannot be null: ");
         }
     }
 
@@ -34,5 +34,11 @@ public class ArticleController {
     }
     public List<Article> findAllArticles(){
         return articleList;
+    }
+    public void deleteArticleById(int id){
+        Article a =  articleList.stream().filter(article -> id == article.getId())
+                .findFirst()
+                .orElseThrow(() -> new ArticleNotFoundException("Article with ID: " + id + " not found"));
+        articleList.remove(a);
     }
 }
