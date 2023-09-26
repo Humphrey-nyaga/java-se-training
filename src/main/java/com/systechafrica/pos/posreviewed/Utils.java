@@ -1,5 +1,8 @@
 package com.systechafrica.pos.posreviewed;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -122,9 +125,24 @@ public class Utils {
         }
     }
 
+ public static String passwordEncoder(String password) {
+     try {
+         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+         byte[] message = password.getBytes(StandardCharsets.UTF_8);
+         messageDigest.update(message);
+         byte[] passWordDigest = messageDigest.digest();
+         return bytesToString(passWordDigest);
+     } catch (NoSuchAlgorithmException e) {
+         throw new RuntimeException(e);
+     }
+ }
 
-    public static void main(String[] args) {
-            int x = createOrderInDatabase();
-        System.out.println("Order ID = " + x);
-    }
+     public static String bytesToString(byte[] bytes){
+         StringBuilder sb = new StringBuilder();
+         for (byte b : bytes) {
+             sb.append(String.format("%02x", b));
+         }
+         return sb.toString();
+     }
+
 }
