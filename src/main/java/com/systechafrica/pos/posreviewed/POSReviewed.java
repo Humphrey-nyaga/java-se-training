@@ -10,8 +10,7 @@ import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-import static com.systechafrica.pos.posreviewed.Utils.createDatabaseTables;
-import static com.systechafrica.pos.posreviewed.Utils.insertOrderItemsToDatabase;
+import static com.systechafrica.pos.posreviewed.Utils.*;
 
 public class POSReviewed {
     private static final Logger LOGGER = Logger.getLogger(POSReviewed.class.getName());
@@ -163,6 +162,7 @@ public class POSReviewed {
 
     public static void main(String[] args) throws IOException {
         createDatabaseTables();
+        createUserInDatabase();
         FileHandler fileHandler = new FileHandler("log.txt");
         CustomLogFormatter formatter = new CustomLogFormatter();
         LOGGER.addHandler(fileHandler);

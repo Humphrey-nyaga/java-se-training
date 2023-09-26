@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class Utils {
@@ -51,7 +52,7 @@ public class Utils {
         return orderID;
     }
 
-    public static void insertOrderItemsToDatabase(List<Cart> cart){
+    public static void insertOrderItemsToDatabase(List<Cart> cart) {
         int orderID = createOrderInDatabase();
         try {
             Iterator<Cart> it = cart.iterator();
@@ -59,12 +60,12 @@ public class Utils {
             String insertOrderItems = "INSERT INTO cart(item_id, order_id, quantity, price) VALUES(?,?,?,?)";
             PreparedStatement preparedStatement = conn.prepareStatement(insertOrderItems);
             conn.setAutoCommit(false);
-            while(it.hasNext()){
+            while (it.hasNext()) {
                 Cart c = it.next();
-                preparedStatement.setInt(1,c.getItem().getId());
-                preparedStatement.setInt(2,orderID);
-                preparedStatement.setInt(3,c.getItemQuantity());
-                preparedStatement.setDouble(4,c.getItem().getItemPrice());
+                preparedStatement.setInt(1, c.getItem().getId());
+                preparedStatement.setInt(2, orderID);
+                preparedStatement.setInt(3, c.getItemQuantity());
+                preparedStatement.setDouble(4, c.getItem().getItemPrice());
                 preparedStatement.addBatch();
             }
             int[] rowsInserted = preparedStatement.executeBatch();
@@ -73,7 +74,7 @@ public class Utils {
             LOGGER.info("Items Insert Transaction Committed...: " + Arrays.toString(rowsInserted));
             conn.close();
         } catch (SQLException ex) {
-           // LOGGER.info("Database Error: " + ex.getMessage());
+            // LOGGER.info("Database Error: " + ex.getMessage());
             ex.printStackTrace();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -85,11 +86,11 @@ public class Utils {
         try {
             Connection conn = connect();
             String createUserTable = """
-                    CREATE TABLE IF NOT EXISTS users(
-                        id INT PRIMARY KEY AUTO_INCREMENT,
-                        username VARCHAR(25),
-                        password VARCHAR(255));
-                """;
+                        CREATE TABLE IF NOT EXISTS users(
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            username VARCHAR(25) UNIQUE NOT NULL,
+                            password VARCHAR(255) NOT NULL);
+                    """;
             PreparedStatement preparedStatement = conn.prepareStatement(createUserTable);
             preparedStatement.executeUpdate();
 
@@ -113,36 +114,59 @@ public class Utils {
                     """;
             PreparedStatement preparedStatement2 = conn.prepareStatement(createCartTable);
             preparedStatement2.executeUpdate();
-
-            LOGGER.info("Database tables created successfully...");
             conn.close();
         } catch (SQLException e) {
             LOGGER.info("Database Error Creating Tables: " + e.getMessage() + "\n");
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             LOGGER.info("Database Driver Error: " + ex.getMessage() + "\n");
 
         }
     }
 
- public static String passwordEncoder(String password) {
-     try {
-         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-         byte[] message = password.getBytes(StandardCharsets.UTF_8);
-         messageDigest.update(message);
-         byte[] passWordDigest = messageDigest.digest();
-         return bytesToString(passWordDigest);
-     } catch (NoSuchAlgorithmException e) {
-         throw new RuntimeException(e);
-     }
- }
+    public static String passwordHasher(String password) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] message = password.getBytes(StandardCharsets.UTF_8);
+            messageDigest.update(message);
+            byte[] passWordDigest = messageDigest.digest();
+            return bytesToString(passWordDigest);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+            //LOGGER.warning("Password Encoding Algorithm Does Not Found: " + e.getMessage());
+        }
+    }
 
-     public static String bytesToString(byte[] bytes){
-         StringBuilder sb = new StringBuilder();
-         for (byte b : bytes) {
-             sb.append(String.format("%02x", b));
-         }
-         return sb.toString();
-     }
+    public static String bytesToString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
 
+    public static void createUserInDatabase() {
+
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("*******CREATE USERS IN DATABASE*********");
+            System.out.print("Enter username: ");
+            String username = scanner.nextLine();
+            System.out.print("Enter password: ");
+            String password = scanner.nextLine();
+            User user = new User(username, password);
+
+            Connection conn = connect();
+            String createUserQuery = "INSERT INTO users(username, password) VALUES(?,?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(createUserQuery);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.execute();
+            LOGGER.info("User Created Successfully");
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            LOGGER.info("Exception Creating User: " + ex.getMessage());
+        }
+
+
+    }
 }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import static com.systechafrica.pos.posreviewed.Utils.connect;
-import static com.systechafrica.pos.posreviewed.Utils.passwordEncoder;
+import static com.systechafrica.pos.posreviewed.Utils.passwordHasher;
 
 
 public class Authentication {
@@ -40,7 +40,7 @@ public class Authentication {
 
     private static boolean validateCredentialInDatabase(String username, String password) {
         try {
-            String hashedPassword  = passwordEncoder(password);
+            String hashedPassword  = passwordHasher(password);
             Connection conn = connect();
             String query = "SELECT username, password FROM users WHERE username = ? AND password = ?;";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
