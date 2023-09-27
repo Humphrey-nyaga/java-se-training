@@ -1,6 +1,6 @@
 package com.systechafrica.part3.jdbc;
 
-import com.systechafrica.part3.logging.CustomLogFormatter;
+import com.systechafrica.part3.logging.FileLogger;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             FileHandler fileHandler = new FileHandler("log.txt");
-            CustomLogFormatter formatter = new CustomLogFormatter();
+            FileLogger formatter = new FileLogger();
             LOGGER.addHandler(fileHandler);
             fileHandler.setFormatter(formatter);
             //findCustomerByEmail("alice@example.com");

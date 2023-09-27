@@ -9,7 +9,7 @@ CREATE TABLE orders (
      time DATETIME NOT NULL,
      total DECIMAL(10,2) DEFAULT 0.0);
 
-CREATE TABLE cart(
+CREATE TABLE items(
     item_id INT NOT NULL,
     order_id INT NOT NULL,
     quantity INT NOT NULL,
@@ -28,5 +28,8 @@ WHERE o.id = ?;
 
 INSERT INTO orders(time, total) VALUES(?, ?);
 **/
+
 SELECT LAST_INSERT_ID();
 INSERT INTO cart(item_id, order_id, quantity, price) VALUES(?,?,?,?)
+SELECT item_id, quantity, price FROM cart WHERE order_id = ?;
+UPDATE orders SET total = SUM()

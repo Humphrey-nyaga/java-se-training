@@ -12,7 +12,7 @@ import static com.systechafrica.pos.posreviewed.Utils.passwordHasher;
 
 
 public class Authentication {
-    private static final Logger LOGGER = Logger.getLogger(Authentication.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(POSReviewed.class.getName());
 
 //    final String DB_USERNAME = "admin";
 //    final static String DB_PASSWORD = "Admin123";
@@ -21,6 +21,7 @@ public class Authentication {
         int loginTries = 0;
         while (loginTries < 3) {
             Scanner scanner = new Scanner(System.in);
+            System.out.println("**********LOGIN****");
             System.out.print("Enter username: ");
             String username = scanner.nextLine();
             System.out.print("Enter password: ");
@@ -34,7 +35,7 @@ public class Authentication {
                 System.out.println("Incorrect username or password!!");
             loginTries++;
         }
-        LOGGER.warning("Login Attempts Limit Exceeded by user ");
+        LOGGER.warning("Login Attempts Limit Exceeded by user \n");
         return false;
     }
 

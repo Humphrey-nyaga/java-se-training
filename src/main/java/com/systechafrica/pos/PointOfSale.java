@@ -1,6 +1,6 @@
 package com.systechafrica.pos;
 
-import com.systechafrica.part3.logging.CustomLogFormatter;
+import com.systechafrica.part3.logging.FileLogger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -158,7 +158,7 @@ public class PointOfSale {
 
     public static void main(String[] args) throws IOException {
         FileHandler fileHandler = new FileHandler("log.txt");
-        CustomLogFormatter formatter = new CustomLogFormatter();
+        FileLogger formatter = new FileLogger();
         LOGGER.addHandler(fileHandler);
         fileHandler.setFormatter(formatter);
 

@@ -1,0 +1,18 @@
+2023-09-26 10:21:37 | login | INFO | Login attempt from: admin successful 
+2023-09-26 10:22:17 | createOrderInDatabase | INFO | Order Created In the Database Successfully2023-09-26 10:22:17 | createOrderInDatabase | INFO | Retrieving the Order ID...2023-09-26 10:22:17 | createOrderInDatabase | INFO | Order ID Retrieved Successfully...42023-09-26 10:22:18 | insertOrderItemsToDatabase | INFO | Records Inserted into Database: [1, 1, 1, 1]2023-09-26 10:22:18 | insertOrderItemsToDatabase | INFO | Items Insert Transaction Committed...: [1, 1, 1, 1]2023-09-26 10:22:18 | billing | INFO | Billing successful 
+2023-09-26 10:22:32 | printReceipt | INFO | Printing Receipt Completed...
+2023-09-26 10:30:06 | login | INFO | Login attempt from: admin successful 
+2023-09-26 10:31:14 | createOrderInDatabase | INFO | Order Created In the Database Successfully2023-09-26 10:31:14 | createOrderInDatabase | INFO | Retrieving the Order ID...2023-09-26 10:31:14 | createOrderInDatabase | INFO | Order ID Retrieved Successfully...52023-09-26 10:31:15 | billing | INFO | Billing successful 
+2023-09-27 01:48:02 | login | INFO | Login attempt from: admin successful 
+2023-09-27 01:49:14 | createOrderInDatabase | INFO | Order Created In the Database Successfully
+2023-09-27 01:49:14 | createOrderInDatabase | INFO | Retrieving the Order ID...
+2023-09-27 01:49:14 | createOrderInDatabase | INFO | Order ID Retrieved Successfully...6
+2023-09-27 01:49:15 | insertOrderItemsToDatabase | INFO | Items Insert Transaction Committed...: [1, 1]
+2023-09-27 01:49:15 | billing | INFO | Billing successful 
+2023-09-27 01:49:24 | printReceipt | INFO | Printing Receipt Completed...
+2023-09-27 02:30:18 | login | INFO | Login attempt from: admin successful 
+2023-09-27 02:30:43 | createOrderInDatabase | INFO | Order Created In the Database Successfully
+2023-09-27 02:30:43 | createOrderInDatabase | INFO | Retrieving the Order ID...
+2023-09-27 02:30:43 | createOrderInDatabase | INFO | Order ID Retrieved Successfully...7
+2023-09-27 02:30:44 | insertOrderItemsToDatabase | INFO | Items Insert Transaction Committed...: [1, 1]
+2023-09-27 02:30:44 | billing | INFO | Billing successful 

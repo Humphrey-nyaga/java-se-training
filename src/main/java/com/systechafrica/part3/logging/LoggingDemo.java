@@ -9,7 +9,7 @@ public class LoggingDemo {
 
     public static void main(String[] args) throws SecurityException, IOException {
         FileHandler fileHandler = new FileHandler("log.txt");
-        CustomLogFormatter formatter = new CustomLogFormatter();
+        FileLogger formatter = new FileLogger();
         LOGGER.addHandler(fileHandler);
         fileHandler.setFormatter(formatter);
 

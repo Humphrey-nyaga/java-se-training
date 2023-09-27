@@ -1,6 +1,6 @@
 package com.systechafrica.pos.posreviewed;
 
-import com.systechafrica.part3.logging.CustomLogFormatter;
+import com.systechafrica.part3.logging.FileLogger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -47,12 +47,13 @@ public class POSReviewed {
             itemCode = scanner.nextInt();
             scanner.nextLine();
             System.out.print("Enter Item price: ");
-            double itemPrice = scanner.nextDouble();
+            double unitPrice = scanner.nextDouble();
             System.out.print("Enter Item quantity: ");
             int quantity = scanner.nextInt();
+            double totalItemPrice = unitPrice * quantity;
             scanner.nextLine();
 
-            Item item = new Item(itemCode, itemPrice);
+            Item item = new Item(itemCode, totalItemPrice);
             Cart cart = new Cart(item, quantity);
 
             cartList.add(cart);
@@ -67,10 +68,10 @@ public class POSReviewed {
         //System.out.printf("%-10s  %-10s  %-9s  %-12s  %-12s%n", "Item Code", "Item Name", "Quantity", "Unit Price", "Total Value");
         for (Cart cart : cartList) {
             Item item = cart.getItem();
-            int quantity = cart.getItemQuantity();
-            double unitPrice = item.getItemPrice();
-            double totalValue = unitPrice * quantity;
-            totalBillAmount += totalValue;
+            //int quantity = cart.getItemQuantity();
+            double totalItemPrice = item.getItemPrice();
+            //double totalValue = totalItemPrice * quantity;
+            totalBillAmount += totalItemPrice;
 
             // System.out.printf("%-11d  %-10s  %4d  %12s  %12s%n", item.getId(), itemName, quantity, String.format("%.2f", unitPrice), String.format(" %.2f", totalValue));
         }
@@ -86,7 +87,6 @@ public class POSReviewed {
         if (isCartEmpty(cartList)) {
             System.out.println("Please add items first to the Cart!!");
         } else {
-            //TODO After user decides to make a payment, create the order and add the items to the database
             insertOrderItemsToDatabase(cartList);
             billing(cartList);
             double billAmount = totalBillAmount;
@@ -116,7 +116,7 @@ public class POSReviewed {
                  * we find the @cartList empty
                  * */
                 receiptItemsList.clear();
-                receiptItemsList = new ArrayList<>(List.copyOf(cartList));
+                receiptItemsList = new ArrayList<>(cartList);
                 receiptBillAmount = totalBillAmount;
                 totalBillAmount = 0;
                 cartList.clear();
@@ -133,8 +133,8 @@ public class POSReviewed {
             Item item = cart.getItem();
             int quantity = cart.getItemQuantity();
             double unitPrice = item.getItemPrice();
-            double totalValue = unitPrice * quantity;
-            formattedReceiptData.append(String.format("%-11d  %4d  %12s  %12s%n", item.getId(), quantity, String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
+            //double totalValue = unitPrice * quantity;
+            formattedReceiptData.append(String.format("%-11d  %4d  %12s%n", item.getId(), quantity, String.format("%.2f", unitPrice)));
         }
         return formattedReceiptData.toString();
     }
@@ -163,8 +163,8 @@ public class POSReviewed {
     public static void main(String[] args) throws IOException {
         createDatabaseTables();
         createUserInDatabase();
-        FileHandler fileHandler = new FileHandler("log.txt");
-        CustomLogFormatter formatter = new CustomLogFormatter();
+        FileHandler fileHandler = new FileHandler("log.txt",true);
+        FileLogger formatter = new FileLogger();
         LOGGER.addHandler(fileHandler);
         fileHandler.setFormatter(formatter);
 

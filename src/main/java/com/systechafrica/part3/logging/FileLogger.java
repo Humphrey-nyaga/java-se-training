@@ -7,8 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-public class CustomLogFormatter extends Formatter {
-
+public class FileLogger extends Formatter {
     @Override
     public String format(LogRecord record) {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
