@@ -10,6 +10,11 @@ public class Cart {
         this.itemQuantity = itemQuantity;
     }
 
+    public Cart() {
+
+    }
+
+
     public Item getItem() {
         return item;
     }
@@ -26,6 +31,11 @@ public class Cart {
         this.itemQuantity = itemQuantity;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "item=" + item +
+                ", itemQuantity=" + itemQuantity +
+                '}';
+    }
 }

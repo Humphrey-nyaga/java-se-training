@@ -17,6 +17,7 @@ public class POSReviewed {
 
 
     private List<Cart> cartList = new ArrayList<>();
+
     private List<Cart> receiptItemsList =new ArrayList<>();
     private double receiptBillAmount =0;
     static Scanner scanner = new Scanner(System.in);
@@ -47,13 +48,12 @@ public class POSReviewed {
             itemCode = scanner.nextInt();
             scanner.nextLine();
             System.out.print("Enter Item price: ");
-            double unitPrice = scanner.nextDouble();
+            double itemPrice = scanner.nextDouble();
             System.out.print("Enter Item quantity: ");
             int quantity = scanner.nextInt();
-            double totalItemPrice = unitPrice * quantity;
             scanner.nextLine();
 
-            Item item = new Item(itemCode, totalItemPrice);
+            Item item = new Item(itemCode, itemPrice);
             Cart cart = new Cart(item, quantity);
 
             cartList.add(cart);
@@ -65,15 +65,12 @@ public class POSReviewed {
     }
 
     public void billing(@NotNull List<Cart> cartList) {
-        //System.out.printf("%-10s  %-10s  %-9s  %-12s  %-12s%n", "Item Code", "Item Name", "Quantity", "Unit Price", "Total Value");
         for (Cart cart : cartList) {
             Item item = cart.getItem();
-            //int quantity = cart.getItemQuantity();
-            double totalItemPrice = item.getItemPrice();
-            //double totalValue = totalItemPrice * quantity;
-            totalBillAmount += totalItemPrice;
-
-            // System.out.printf("%-11d  %-10s  %4d  %12s  %12s%n", item.getId(), itemName, quantity, String.format("%.2f", unitPrice), String.format(" %.2f", totalValue));
+            int quantity = cart.getItemQuantity();
+            double unitPrice = item.getItemPrice();
+            double totalValue = unitPrice * quantity;
+            totalBillAmount += totalValue;
         }
         LOGGER.info("Billing successful \n");
 
@@ -88,9 +85,11 @@ public class POSReviewed {
             System.out.println("Please add items first to the Cart!!");
         } else {
             insertOrderItemsToDatabase(cartList);
-            billing(cartList);
+            cartList.clear();
+            List<Cart> cartItems = getCartItems(orderID);
+            billing(cartItems);
             double billAmount = totalBillAmount;
-            System.out.println(formatReceiptData(cartList));
+            System.out.println(formatReceiptData(cartItems));
             System.out.println("*************************************");
             String currency = "KES";
             System.out.printf("%s %.2f\n", currency, billAmount);
@@ -115,8 +114,8 @@ public class POSReviewed {
                  * and if they do not print they receipt and decide to add a new item for new customer
                  * we find the @cartList empty
                  * */
-                receiptItemsList.clear();
-                receiptItemsList = new ArrayList<>(cartList);
+                // receiptItemsList.clear();
+                //receiptItemsList = new ArrayList<>(cartList);
                 receiptBillAmount = totalBillAmount;
                 totalBillAmount = 0;
                 cartList.clear();
@@ -133,20 +132,21 @@ public class POSReviewed {
             Item item = cart.getItem();
             int quantity = cart.getItemQuantity();
             double unitPrice = item.getItemPrice();
-            //double totalValue = unitPrice * quantity;
-            formattedReceiptData.append(String.format("%-11d  %4d  %12s%n", item.getId(), quantity, String.format("%.2f", unitPrice)));
+            double totalValue = unitPrice * quantity;
+            formattedReceiptData.append(String.format("%-11d  %4d  %12s  %12s%n", item.getId(), quantity, String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
         }
         return formattedReceiptData.toString();
     }
 
     private void printReceipt() {
-        if (isCartEmpty(receiptItemsList)) {
+        List <Cart> items = getCartItems(orderID);
+        System.out.println("Print receipt:  " + items);
+        if (isCartEmpty(items)) {
             System.out.println("Please add items first to the Cart!!");
         } else {
-
             double billAmount = receiptBillAmount;
             System.out.println("**************RECEIPT********************");
-            System.out.println(formatReceiptData(receiptItemsList));
+            System.out.println(formatReceiptData(items));
             System.out.println("Total: KES " + billAmount);
             System.out.println("Cash Given: KES " + amountGivenByCustomer);
             System.out.println("Balance: KES " + balance);
@@ -161,12 +161,13 @@ public class POSReviewed {
     }
 
     public static void main(String[] args) throws IOException {
-        createDatabaseTables();
-        createUserInDatabase();
         FileHandler fileHandler = new FileHandler("log.txt",true);
         FileLogger formatter = new FileLogger();
         LOGGER.addHandler(fileHandler);
         fileHandler.setFormatter(formatter);
+       //TODO: Prompt user to create a new user account if not exist
+        createDatabaseTables();
+
 
         POSReviewed pos = new POSReviewed();
         Authentication authentication = new Authentication();

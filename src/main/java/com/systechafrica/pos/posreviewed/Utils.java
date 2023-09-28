@@ -1,30 +1,28 @@
 package com.systechafrica.pos.posreviewed;
 
-import org.jetbrains.annotations.NotNull;
+import com.systechafrica.pos.posreviewed.exceptions.CartIsEmptyException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Logger;
+
 
 public class Utils {
     private static final Logger LOGGER = Logger.getLogger(POSReviewed.class.getName());
+    public static int orderID = -1;
 
     private static final String URL = "jdbc:mysql://localhost:3306/pointofsale";
     private static final String USERNAME = "javase";
     private static final String PASSWORD = "javase";
 
     static Connection connect() throws ClassNotFoundException, SQLException {
+
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
-
-    // should return an order ID
 
 
     public static String passwordHasher(String password) {
@@ -49,7 +47,7 @@ public class Utils {
     }
 
     public static int createOrderInDatabase() {
-        int orderID = -1;
+        int orderIDInDb = -1;
         try {
             Connection conn = connect();
             String createOrderQuery = "INSERT INTO orders(time, total) VALUES(now(), ?);";
@@ -63,18 +61,19 @@ public class Utils {
             PreparedStatement getOrderIDStmt = conn.prepareStatement(orderCreatedIDQuery);
             ResultSet rs = getOrderIDStmt.executeQuery();
             while (rs.next()) {
-                orderID = rs.getInt(1);
+                orderIDInDb = rs.getInt(1);
             }
-            LOGGER.info("Order ID Retrieved Successfully..." + orderID + "\n");
+            LOGGER.info("Order ID Retrieved Successfully..." + orderIDInDb + "\n");
             conn.close();
-            return orderID;
+            orderID = orderIDInDb;
+            return orderIDInDb;
         } catch (SQLException ex) {
-            LOGGER.info("An error occurred: " + ex.getMessage()+ "\n");
+            LOGGER.info("An error occurred: " + ex.getMessage() + "\n");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        return orderID;
+        return orderIDInDb;
     }
 
     public static void insertOrderItemsToDatabase(List<Cart> cart) {
@@ -95,18 +94,59 @@ public class Utils {
             }
             int[] rowsInserted = preparedStatement.executeBatch();
             conn.commit();
-            LOGGER.info("Items Insert Transaction Committed...: " + Arrays.toString(rowsInserted)+ "\n");
+            LOGGER.info("Batch Insert of cart items into database completed... \n");
             conn.close();
+        } catch (BatchUpdateException ex) {
+            LOGGER.info("Batch Insert Erro: " + ex.getMessage() + "\n");
         } catch (SQLException ex) {
             LOGGER.info("Database Error: " + ex.getMessage() + "\n");
-            //ex.printStackTrace();
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            LOGGER.info("Database Error: " + e.getMessage() + "\n");
+
         }
 
     }
 
-    public static void createDatabaseTables(){
+    public static boolean orderIDIsNonNegative(int orderID){
+        if(orderID > 0){
+            return true;
+        }
+        throw new CartIsEmptyException("Please Add items to the Cart First!!");
+    }
+    public static List<Cart> getCartItems(int orderID) {
+        List<Cart> cartItems = new ArrayList<>();
+        try {
+            orderIDIsNonNegative(orderID);
+            Connection conn = connect();
+            String query = "SELECT item_id, quantity, price FROM cart WHERE order_id = ?;";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, orderID);
+            ResultSet resultSet = ps.executeQuery();
+            LOGGER.info("Cart Items start retrieving from the database... ");
+            while (resultSet.next()) {
+                int price = resultSet.getInt("price");
+                int item_id = resultSet.getInt("item_id");
+                int quantity = resultSet.getInt("quantity");
+                Item item = new Item(item_id, price);
+                Cart cart = new Cart(item, quantity);
+                cartItems.add(cart);
+            }
+            LOGGER.info("Cart Items retrieval finished from the database... ");
+            conn.close();
+            LOGGER.info("Cart Items: " + cartItems.toString());
+            return cartItems;
+        } catch (CartIsEmptyException ex) {
+            LOGGER.info("Getting Items On an Empty Order Failed... " + ex.getMessage());
+        }catch (SQLException e) {
+            LOGGER.info("Database Error Retrieving Cart Items: " + e.getMessage() + "\n");
+        } catch (ClassNotFoundException ex) {
+            LOGGER.info("Database Driver Error: " + ex.getMessage() + "\n");
+        }
+
+        return cartItems;
+    }
+
+    public static void createDatabaseTables() {
         try {
             Connection conn = connect();
             String createUserTable = """
@@ -139,13 +179,16 @@ public class Utils {
             PreparedStatement preparedStatement2 = conn.prepareStatement(createCartTable);
             preparedStatement2.executeUpdate();
             conn.close();
+            createBillingTrigger();
         } catch (SQLException e) {
             LOGGER.info("Database Error Creating Tables: " + e.getMessage() + "\n");
         } catch (ClassNotFoundException ex) {
             LOGGER.info("Database Driver Error: " + ex.getMessage() + "\n");
+            ex.printStackTrace();
 
         }
     }
+
     public static void createUserInDatabase() {
 
         try {
@@ -172,4 +215,48 @@ public class Utils {
 
 
     }
+    public static void createBillingTrigger() {
+        String triggerCalculateOrderTotal = "calculate_order_total";
+
+        String triggerQuery = "CREATE TRIGGER " + triggerCalculateOrderTotal + " " +
+                "AFTER INSERT ON cart " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "    DECLARE order_total DECIMAL(10, 2); " +
+                "    SELECT SUM(price * quantity) " +
+                "    INTO order_total " +
+                "    FROM cart " +
+                "    WHERE order_id = NEW.order_id; " +
+                "    UPDATE orders " +
+                "    SET total = order_total " +
+                "    WHERE id = NEW.order_id; " +
+                "END;";
+        try {
+            Connection conn = connect();
+
+
+            if (!triggerExists(conn, triggerCalculateOrderTotal)) {
+                Statement statement = conn.createStatement();
+                statement.execute(triggerQuery);
+                LOGGER.info("Trigger created successfully.");
+            } else {
+               LOGGER.info("Trigger exists, skipping creation.");
+            }
+            conn.close();
+        } catch (SQLException e) {
+           LOGGER.info("SQL Exception: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            LOGGER.info("Database Connection Error: " + e.getMessage());
+
+        }
+    }
+
+    private static boolean triggerExists(Connection connection, String triggerToSearch) throws SQLException {
+        String query = "SELECT trigger_name FROM information_schema.triggers WHERE trigger_name = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, triggerToSearch);
+        return preparedStatement.executeQuery().next();
+    }
 }
+
+

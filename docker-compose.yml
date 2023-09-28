@@ -32,10 +32,10 @@ services:
     restart: always
     container_name: pos
     environment:
-      MYSQL_DATABASE: 'pos'
-      MYSQL_USER: 'pos'
-      MYSQL_PASSWORD: 'pos'
-      MYSQL_ROOT_PASSWORD: 'pos'
+      MYSQL_DATABASE: 'pointofsale'
+      MYSQL_USER: 'javase'
+      MYSQL_PASSWORD: 'javase'
+      MYSQL_ROOT_PASSWORD: 'javase'
     ports:
       - '3309:3307'
     expose:
