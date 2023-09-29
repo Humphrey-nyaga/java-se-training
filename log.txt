@@ -90,3 +90,46 @@
 2023-09-27 23:16:22 | insertOrderItemsToDatabase | INFO | Batch Insert of cart items into database completed... 
 2023-09-27 23:16:22 | getCartItems | INFO | Cart Items start retrieving from the database... 2023-09-27 23:16:22 | getCartItems | INFO | Cart Items retrieval finished from the database... 2023-09-27 23:16:22 | getCartItems | INFO | Cart Items: [Cart{item=Item{id=123, itemPrice=200.0}, itemQuantity=2}, Cart{item=Item{id=343, itemPrice=300.0}, itemQuantity=2}]2023-09-27 23:16:22 | billing | INFO | Billing successful 
 2023-09-27 23:17:32 | getCartItems | INFO | Cart Items start retrieving from the database... 2023-09-27 23:17:32 | getCartItems | INFO | Cart Items retrieval finished from the database... 2023-09-27 23:17:32 | getCartItems | INFO | Cart Items: [Cart{item=Item{id=123, itemPrice=200.0}, itemQuantity=2}, Cart{item=Item{id=343, itemPrice=300.0}, itemQuantity=2}]2023-09-27 23:17:32 | printReceipt | INFO | Printing Receipt Completed...
+2023-09-27 23:27:41 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-27 23:27:48 | login | INFO | Login attempt from: admin successful 
+2023-09-27 23:28:49 | createOrderInDatabase | INFO | Order Created In the Database Successfully
+2023-09-27 23:28:49 | createOrderInDatabase | INFO | Retrieving the Order ID...
+2023-09-27 23:28:49 | createOrderInDatabase | INFO | Order ID Retrieved Successfully...21
+2023-09-27 23:28:50 | insertOrderItemsToDatabase | INFO | Batch Insert Erro: Duplicate entry '900-21' for key 'cart.PRIMARY'
+2023-09-27 23:28:50 | getCartItems | INFO | Cart Items start retrieving from the database... 2023-09-27 23:28:50 | getCartItems | INFO | Cart Items retrieval finished from the database... 2023-09-27 23:28:50 | getCartItems | INFO | Cart Items: []2023-09-27 23:28:50 | billing | INFO | Billing successful 
+2023-09-27 23:51:39 | createBillingTrigger | INFO | Trigger created successfully.2023-09-27 23:52:28 | createUserInDatabase | INFO | Exception Creating User: Duplicate entry 'admin' for key 'users.username'
+2023-09-27 23:52:28 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-27 23:52:35 | login | INFO | Login attempt from: admin successful 
+2023-09-27 23:53:54 | createOrderInDatabase | INFO | Order Created In the Database Successfully
+2023-09-27 23:53:54 | createOrderInDatabase | INFO | Retrieving the Order ID...
+2023-09-27 23:53:54 | createOrderInDatabase | INFO | Order ID Retrieved Successfully...1
+2023-09-27 23:53:54 | insertOrderItemsToDatabase | INFO | Batch Insert of cart items into database completed... 
+2023-09-27 23:53:55 | getCartItems | INFO | Cart Items start retrieving from the database... 2023-09-27 23:53:55 | getCartItems | INFO | Cart Items retrieval finished from the database... 2023-09-27 23:53:55 | getCartItems | INFO | Cart Items: [Cart{item=Item{id=100, itemPrice=400.0}, itemQuantity=3}, Cart{item=Item{id=101, itemPrice=900.0}, itemQuantity=3}, Cart{item=Item{id=102, itemPrice=800.0}, itemQuantity=21}, Cart{item=Item{id=103, itemPrice=1000.0}, itemQuantity=5}, Cart{item=Item{id=104, itemPrice=800.0}, itemQuantity=1}, Cart{item=Item{id=105, itemPrice=1200.0}, itemQuantity=2}, Cart{item=Item{id=106, itemPrice=400.0}, itemQuantity=3}, Cart{item=Item{id=542, itemPrice=200.0}, itemQuantity=5}]2023-09-27 23:53:55 | billing | INFO | Billing successful 
+2023-09-27 23:55:12 | getCartItems | INFO | Cart Items start retrieving from the database... 2023-09-27 23:55:12 | getCartItems | INFO | Cart Items retrieval finished from the database... 2023-09-27 23:55:13 | getCartItems | INFO | Cart Items: [Cart{item=Item{id=100, itemPrice=400.0}, itemQuantity=3}, Cart{item=Item{id=101, itemPrice=900.0}, itemQuantity=3}, Cart{item=Item{id=102, itemPrice=800.0}, itemQuantity=21}, Cart{item=Item{id=103, itemPrice=1000.0}, itemQuantity=5}, Cart{item=Item{id=104, itemPrice=800.0}, itemQuantity=1}, Cart{item=Item{id=105, itemPrice=1200.0}, itemQuantity=2}, Cart{item=Item{id=106, itemPrice=400.0}, itemQuantity=3}, Cart{item=Item{id=542, itemPrice=200.0}, itemQuantity=5}]2023-09-27 23:55:13 | printReceipt | INFO | Printing Receipt Completed...
+2023-09-28 13:05:42 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 13:05:42 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 13:06:06 | login | INFO | Login attempt from: admin successful 
+2023-09-28 13:45:26 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 13:46:18 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 13:49:50 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 13:50:01 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 13:52:49 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 13:53:04 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 13:57:10 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 13:57:18 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 13:59:05 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 13:59:17 | createUserInDatabase | INFO | User with username admin already exists!!
+2023-09-28 14:08:04 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 14:08:12 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:11:05 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:11:06 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 14:13:57 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:14:38 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:22:42 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:22:42 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 14:22:52 | login | INFO | Login attempt from: admin successful 
+2023-09-28 14:23:30 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:23:30 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 14:29:23 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:29:23 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 14:29:46 | login | WARNING | Login Attempts Limit Exceeded by user 
+2023-09-28 14:30:12 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!!
+
+2023-09-28 14:30:12 | createBillingTrigger | INFO | Trigger exists, skipping creation.2023-09-28 14:30:18 | login | INFO | Login attempt from: admin successful 

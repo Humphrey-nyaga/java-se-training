@@ -1,12 +1,16 @@
 package com.systechafrica.pos.posreviewed;
 
 import com.systechafrica.pos.posreviewed.exceptions.CartIsEmptyException;
+import com.systechafrica.pos.posreviewed.exceptions.UserAlreadyExistsException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 
@@ -107,12 +111,13 @@ public class Utils {
 
     }
 
-    public static boolean orderIDIsNonNegative(int orderID){
-        if(orderID > 0){
+    public static boolean orderIDIsNonNegative(int orderID) {
+        if (orderID > 0) {
             return true;
         }
         throw new CartIsEmptyException("Please Add items to the Cart First!!");
     }
+
     public static List<Cart> getCartItems(int orderID) {
         List<Cart> cartItems = new ArrayList<>();
         try {
@@ -137,7 +142,7 @@ public class Utils {
             return cartItems;
         } catch (CartIsEmptyException ex) {
             LOGGER.info("Getting Items On an Empty Order Failed... " + ex.getMessage());
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             LOGGER.info("Database Error Retrieving Cart Items: " + e.getMessage() + "\n");
         } catch (ClassNotFoundException ex) {
             LOGGER.info("Database Driver Error: " + ex.getMessage() + "\n");
@@ -193,28 +198,34 @@ public class Utils {
 
         try {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("*******CREATE USERS IN DATABASE*********");
+            System.out.println("*******CREATE USER IN DATABASE*********");
             System.out.print("Enter username: ");
             String username = scanner.nextLine();
             System.out.print("Enter password: ");
             String password = scanner.nextLine();
             User user = new User(username, password);
-
-            Connection conn = connect();
-            String createUserQuery = "INSERT INTO users(username, password) VALUES(?,?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(createUserQuery);
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.execute();
-            System.out.println();
-            LOGGER.info("User Created Successfully in Database\n");
-            conn.close();
+            if (userExistsInDatabase(username)) {
+                throw new UserAlreadyExistsException("User with username " + username + " already exists!!\n");
+            } else {
+                Connection conn = connect();
+                String createUserQuery = "INSERT INTO users(username, password) VALUES(?,?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(createUserQuery);
+                preparedStatement.setString(1, user.getUsername());
+                preparedStatement.setString(2, user.getPassword());
+                preparedStatement.execute();
+                System.out.println();
+                LOGGER.info("User Created Successfully in Database\n");
+                conn.close();
+            }
+        }catch (UserAlreadyExistsException ex) {
+            LOGGER.info("Exception Creating User: " + ex.getMessage() + "\n");
         } catch (SQLException | ClassNotFoundException ex) {
             LOGGER.info("Exception Creating User: " + ex.getMessage() + "\n");
         }
 
 
     }
+
     public static void createBillingTrigger() {
         String triggerCalculateOrderTotal = "calculate_order_total";
 
@@ -240,11 +251,11 @@ public class Utils {
                 statement.execute(triggerQuery);
                 LOGGER.info("Trigger created successfully.");
             } else {
-               LOGGER.info("Trigger exists, skipping creation.");
+                LOGGER.info("Trigger exists, skipping creation.");
             }
             conn.close();
         } catch (SQLException e) {
-           LOGGER.info("SQL Exception: " + e.getMessage());
+            LOGGER.info("SQL Exception: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             LOGGER.info("Database Connection Error: " + e.getMessage());
 
@@ -256,6 +267,34 @@ public class Utils {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, triggerToSearch);
         return preparedStatement.executeQuery().next();
+    }
+
+    public static boolean userExistsInDatabase(String username) {
+        try {
+            Connection conn = connect();
+            String query = "SELECT username FROM users WHERE username = ?;";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            return preparedStatement.executeQuery().next();
+        } catch (ClassNotFoundException e) {
+            LOGGER.info("Database Driver Error: " + e.getMessage());
+        } catch (SQLException e) {
+            LOGGER.info("Database Error Finding Existing User: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static int promptCreateUserOrLogin() {
+        System.out.println("Choose an option to Create Account / Login: ");
+        System.out.println(
+                """
+                        1. Create User 
+                        2. Login
+                        """);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Option: ");
+        int option = scanner.nextInt();
+       return option;
     }
 }
 

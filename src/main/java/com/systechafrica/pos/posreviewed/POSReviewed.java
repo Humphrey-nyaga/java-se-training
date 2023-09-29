@@ -18,8 +18,7 @@ public class POSReviewed {
 
     private List<Cart> cartList = new ArrayList<>();
 
-    private List<Cart> receiptItemsList =new ArrayList<>();
-    private double receiptBillAmount =0;
+    private double receiptBillAmount = 0;
     static Scanner scanner = new Scanner(System.in);
     private double totalBillAmount = 0;
     private double amountGivenByCustomer = 0;
@@ -139,7 +138,7 @@ public class POSReviewed {
     }
 
     private void printReceipt() {
-        List <Cart> items = getCartItems(orderID);
+        List<Cart> items = getCartItems(orderID);
         System.out.println("Print receipt:  " + items);
         if (isCartEmpty(items)) {
             System.out.println("Please add items first to the Cart!!");
@@ -157,21 +156,21 @@ public class POSReviewed {
             LOGGER.info("Printing Receipt Completed...\n");
 
         }
-        receiptItemsList.clear();
     }
 
     public static void main(String[] args) throws IOException {
-        FileHandler fileHandler = new FileHandler("log.txt",true);
+        FileHandler fileHandler = new FileHandler("log.txt", true);
         FileLogger formatter = new FileLogger();
         LOGGER.addHandler(fileHandler);
         fileHandler.setFormatter(formatter);
-       //TODO: Prompt user to create a new user account if not exist
-        createDatabaseTables();
-
-
         POSReviewed pos = new POSReviewed();
         Authentication authentication = new Authentication();
-        boolean loggedIn = authentication.login();
+        boolean loggedIn = false;
+
+        createUserInDatabase();
+        createDatabaseTables();
+        loggedIn = authentication.login();
+
         if (loggedIn) {
             System.out.println("Logged in successfully");
             while (true) {
@@ -187,14 +186,14 @@ public class POSReviewed {
                         default -> System.out.println("Invalid Option");
                     }
                     scanner.nextLine();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     scanner.close();
                     System.exit(-1);
                     LOGGER.severe("Internal Error: " + e.getMessage() + "\n");
                 }
             }
         }
-
     }
+
 }
+
