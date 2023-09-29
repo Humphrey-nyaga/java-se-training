@@ -25,6 +25,7 @@ public class Authentication {
             String password = scanner.nextLine();
 
             if (username.equals(dbUsername) && password.equals(dbPassword)) {
+                scanner.close();
                 return true;
             } else
                 System.out.println("Incorrect username or password!!");

@@ -9,7 +9,8 @@ CREATE TABLE orders
 (
     id    INT PRIMARY KEY AUTO_INCREMENT,
     time  DATETIME NOT NULL,
-    total DECIMAL(10, 2) DEFAULT 0.0
+    total DECIMAL(10, 2) DEFAULT 0.0,
+    completed  BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE cart
@@ -21,13 +22,6 @@ CREATE TABLE cart
     PRIMARY KEY (item_id, order_id),
     FOREIGN KEY (order_id) REFERENCES orders (id)
 );
-1. User adds items
-2. Make Payment
-3. Create
-cart -
-          retrieve cart id
-4.
-Insert cart_items while inclusing the cart_id into database
 
 
 /**
@@ -43,14 +37,29 @@ INSERT INTO orders(time, total) VALUES(?, ?);
 **/
 
 SELECT LAST_INSERT_ID();
+
 INSERT INTO cart(item_id, order_id, quantity, price)
-VALUES (?, ?, ?, ?)
+VALUES (?, ?, ?, ?);
+
 SELECT item_id, quantity, price
 FROM cart
 WHERE order_id = ?;
-UPDATE orders
-SET total = SUM()
+
 
 SELECT SUM(quantity * price) as total
-FROM order
+FROM cart
 WHERE order_id = 1;
+
+UPDATE orders SET completed = TRUE WHERE id = ?;
+
+CREATE TRIGGER triggerCalculateOrderTotal
+    AFTER INSERT ON cart FOR EACH ROW
+BEGIN
+    DECLARE order_total DECIMAL(10, 2);
+    SELECT SUM(price * quantity) INTO order_total
+    FROM cart
+    WHERE order_id = NEW.order_id;
+    UPDATE orders
+    SET total = order_total
+    WHERE id = NEW.order_id;
+END;

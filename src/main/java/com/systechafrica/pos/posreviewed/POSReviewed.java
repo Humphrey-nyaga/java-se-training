@@ -1,26 +1,28 @@
 package com.systechafrica.pos.posreviewed;
 
-import com.systechafrica.part3.logging.FileLogger;
+
+import com.systechafrica.pos.posreviewed.logger.FileLogger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-import static com.systechafrica.pos.posreviewed.Utils.*;
+import static com.systechafrica.pos.posreviewed.DatabaseUtils.*;
 
 public class POSReviewed {
-    private static final Logger LOGGER = Logger.getLogger(POSReviewed.class.getName());
+    static final Logger LOGGER = FileLogger.getLogger();
 
-
-    private List<Cart> cartList = new ArrayList<>();
-
-    private double receiptBillAmount = 0;
+    private final List<Cart> customerItems = new ArrayList<>();
+    private static List<Cart> CartItemsFromDb = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
-    private double totalBillAmount = 0;
+    private  double billAmount = 0;
+   // private  double totalBillAmount = 0;
+
     private double amountGivenByCustomer = 0;
     private double balance = 0;
 
@@ -35,6 +37,22 @@ public class POSReviewed {
                         3. PRINT RECEIPT
                         4. QUIT
                         """);
+
+        try {
+            System.out.print("Choose an option: ");
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1 -> addItem();
+                case 2 -> payment();
+                case 3 -> printReceipt();
+                case 4 -> System.exit(-1);
+                default -> System.out.println("Invalid Option");
+            }
+            scanner.nextLine();
+        } catch (InputMismatchException ex) {
+            LOGGER.info("Only Integers Are Allowed: " + ex.getMessage());
+            scanner.nextLine();
+        }
     }
 
     private void addItem() {
@@ -55,11 +73,49 @@ public class POSReviewed {
             Item item = new Item(itemCode, itemPrice);
             Cart cart = new Cart(item, quantity);
 
-            cartList.add(cart);
+            customerItems.add(cart);
 
             System.out.print("Do you want to add another item (Y/N)? ");
             addMoreItemsOption = scanner.next().charAt(0);
         } while (addMoreItemsOption == 'Y' || addMoreItemsOption == 'y');
+        System.out.println();
+    }
+
+
+    private void payment() {
+        if (isCartEmpty(customerItems)) {
+            System.out.println("Please add items first to the Cart!!");
+        } else {
+            insertOrderItemsToDatabase(customerItems);
+            CartItemsFromDb = getCartItemsFromDb(orderID);
+            //billing(cartItems);
+             billAmount = billing(orderID);
+            System.out.println(formatReceiptData(CartItemsFromDb));
+            System.out.println("*************************************");
+            String currency = "KES";
+            System.out.printf("%s %.2f\n", currency, billAmount);
+            System.out.println("*************************************");
+
+            try {
+                System.out.print("Enter amount given by customer: ");
+                amountGivenByCustomer = scanner.nextDouble();
+                if (amountGivenByCustomer < billAmount) {
+                    System.out.println("Invalid!!. Try a higher amount.");
+                } else {
+                    balance = amountGivenByCustomer - billAmount;
+                    System.out.println("Change: " + balance);
+                    updateOrderStatusToCompleted(orderID);
+                    System.out.println();
+                    System.out.println("*****************************");
+                    System.out.println("THANK YOU FOR SHOPPING WITH US");
+                    System.out.println("*****************************");
+                    System.out.println();
+                    customerItems.clear();
+                }
+            }catch (InputMismatchException ex){
+               LOGGER.info("Amount Can only be an integer: " + ex.getMessage());
+            }
+        }
         System.out.println();
     }
 
@@ -69,83 +125,44 @@ public class POSReviewed {
             int quantity = cart.getItemQuantity();
             double unitPrice = item.getItemPrice();
             double totalValue = unitPrice * quantity;
-            totalBillAmount += totalValue;
+            billAmount += totalValue;
         }
-        LOGGER.info("Billing successful \n");
+        LOGGER.info("Billing Completed for order " + orderID + "!..");
 
     }
+    public double billing(int order){
+        double total =  getOrderTotalFromDb(orderID);
+        LOGGER.info("Billing Completed for order " + orderID + "!..");
+        return total;
+    }
+
 
     public boolean isCartEmpty(List<Cart> cart) {
         return cart.isEmpty();
     }
 
-    private void payment() {
-        if (isCartEmpty(cartList)) {
-            System.out.println("Please add items first to the Cart!!");
-        } else {
-            insertOrderItemsToDatabase(cartList);
-            cartList.clear();
-            List<Cart> cartItems = getCartItems(orderID);
-            billing(cartItems);
-            double billAmount = totalBillAmount;
-            System.out.println(formatReceiptData(cartItems));
-            System.out.println("*************************************");
-            String currency = "KES";
-            System.out.printf("%s %.2f\n", currency, billAmount);
-            System.out.println("*************************************");
-
-            System.out.print("Enter amount given by customer: ");
-            amountGivenByCustomer = scanner.nextDouble();
-            if (amountGivenByCustomer < billAmount) {
-                System.out.println("Invalid!!. Try a higher amount.");
-            } else {
-                balance = amountGivenByCustomer - billAmount;
-                System.out.println("Change: " + balance);
-                System.out.println();
-                System.out.println("*****************************");
-                System.out.println("THANK YOU FOR SHOPPING WITH US");
-                System.out.println("*****************************");
-                System.out.println();
-
-                /*
-                 *We need to copy the current list @cartList before we clear it
-                 * so that incase a user opts to print a receipt, we use the @receiptItemsList
-                 * and if they do not print they receipt and decide to add a new item for new customer
-                 * we find the @cartList empty
-                 * */
-                // receiptItemsList.clear();
-                //receiptItemsList = new ArrayList<>(cartList);
-                receiptBillAmount = totalBillAmount;
-                totalBillAmount = 0;
-                cartList.clear();
-            }
-        }
-        System.out.println();
-
-    }
 
     public String formatReceiptData(@NotNull List<Cart> itemsInCartList) {
         StringBuilder formattedReceiptData = new StringBuilder();
-        formattedReceiptData.append(String.format("%-10s  %-9s  %-12s  %-12s%n", "Item Code", "Quantity", "Unit Price", "Total Value"));
+        formattedReceiptData.append(
+                String.format("%-10s  %-9s  %-12s  %-12s%n", "Item Code", "Quantity", "Unit Price", "Total Value"));
         for (Cart cart : itemsInCartList) {
             Item item = cart.getItem();
             int quantity = cart.getItemQuantity();
             double unitPrice = item.getItemPrice();
             double totalValue = unitPrice * quantity;
-            formattedReceiptData.append(String.format("%-11d  %4d  %12s  %12s%n", item.getId(), quantity, String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
+            formattedReceiptData.append(String.format("%-11d  %4d  %12s  %12s%n", item.getId(), quantity,
+                    String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
         }
         return formattedReceiptData.toString();
     }
 
     private void printReceipt() {
-        List<Cart> items = getCartItems(orderID);
-        System.out.println("Print receipt:  " + items);
-        if (isCartEmpty(items)) {
+        if (isCartEmpty(CartItemsFromDb)) {
             System.out.println("Please add items first to the Cart!!");
         } else {
-            double billAmount = receiptBillAmount;
             System.out.println("**************RECEIPT********************");
-            System.out.println(formatReceiptData(items));
+            System.out.println(formatReceiptData(CartItemsFromDb));
             System.out.println("Total: KES " + billAmount);
             System.out.println("Cash Given: KES " + amountGivenByCustomer);
             System.out.println("Balance: KES " + balance);
@@ -153,7 +170,7 @@ public class POSReviewed {
             System.out.println("THANK YOU FOR SHOPPING WITH SYSTECH");
             System.out.println("***********************************");
             System.out.println();
-            LOGGER.info("Printing Receipt Completed...\n");
+            LOGGER.info("Printing Receipt Completed.");
 
         }
     }
@@ -165,35 +182,23 @@ public class POSReviewed {
         fileHandler.setFormatter(formatter);
         POSReviewed pos = new POSReviewed();
         Authentication authentication = new Authentication();
-        boolean loggedIn = false;
-
-        createUserInDatabase();
         createDatabaseTables();
-        loggedIn = authentication.login();
+        createUserInDatabase();
 
+        boolean loggedIn = authentication.login();
         if (loggedIn) {
             System.out.println("Logged in successfully");
+
             while (true) {
-                pos.menu();
                 try {
-                    System.out.print("Choose an option: ");
-                    int option = scanner.nextInt();
-                    switch (option) {
-                        case 1 -> pos.addItem();
-                        case 2 -> pos.payment();
-                        case 3 -> pos.printReceipt();
-                        case 4 -> System.exit(-1);
-                        default -> System.out.println("Invalid Option");
-                    }
-                    scanner.nextLine();
+                    pos.menu();
                 } catch (Exception e) {
                     scanner.close();
+                    LOGGER.severe("Internal Error: " + e.getMessage());
                     System.exit(-1);
-                    LOGGER.severe("Internal Error: " + e.getMessage() + "\n");
                 }
             }
         }
     }
 
 }
-

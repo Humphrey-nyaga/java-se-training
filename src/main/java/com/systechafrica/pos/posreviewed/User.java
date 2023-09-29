@@ -1,15 +1,22 @@
 package com.systechafrica.pos.posreviewed;
 
-import static com.systechafrica.pos.posreviewed.Utils.passwordHasher;
+
+import com.systechafrica.pos.posreviewed.logger.FileLogger;
+
+import java.util.logging.Logger;
+
+import static com.systechafrica.pos.posreviewed.Authentication.passwordHasher;
 
 public class User {
+    private static Logger LOGGER = FileLogger.getLogger();
     private String username;
     private String password;
 
     public User(String username, String password) {
-        this.username = username;
-        this.password =  passwordHasher(password);
+            this.username = username;
+            this.password =  passwordHasher(password);
     }
+
 
     public String getUsername() {
         return username;
