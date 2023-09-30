@@ -1,6 +1,7 @@
 package com.systechafrica.part3.collections;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -10,6 +11,18 @@ import java.util.Set;
 * Does not provide indexing
 * */
 public class WorkingWithSetAndHashSet {
+
+    public static void duplicatedListToSet(){
+        List<String> europeCountries = List.of("Germany","Italy","Switzerland","Poland","Netherlands","Poland","Germany","Monaco");
+
+        List<String> africaCountries = List.of("Kenya","South Africa","Morocco","Mauritius","Ghana","Morocco","Nigeria","Uganda","Egypt");
+
+        Set<String> countries = new HashSet<>(europeCountries);
+        countries.addAll(africaCountries);
+        System.out.println("\n------------------Countries------------------");
+        System.out.println(countries);
+
+    }
     public static void main(String[] args) {
         Set<Student> studentSet = new HashSet<>();
         Student doe = new Student("John Doe", "doe@gmail.com", "0987");
@@ -39,6 +52,7 @@ public class WorkingWithSetAndHashSet {
 
         System.out.println("\n------Check if object is available in set---");
         System.out.println("studentSet.contains(smith) = " + studentSet.contains(smith));
+        duplicatedListToSet();
 
     }
 
