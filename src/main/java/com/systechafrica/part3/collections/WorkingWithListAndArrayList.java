@@ -3,6 +3,11 @@ package com.systechafrica.part3.collections;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* List allows duplicate items.
+* List is ordered
+* List implements indexing for accessing and manipulating elements
+* */
 public class WorkingWithListAndArrayList {
     public static void main(String[] args) {
 
