@@ -75,6 +75,7 @@ public class Authentication {
     public static String passwordHasher(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+
             byte[] message = password.getBytes(StandardCharsets.UTF_8);
             messageDigest.update(message);
             byte[] passWordDigest = messageDigest.digest();

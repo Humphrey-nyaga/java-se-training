@@ -199,3 +199,10 @@
 2023-09-29 13:29:16 | billing | INFO | Billing Completed for order 3!..
 2023-09-29 13:29:23 | updateOrderStatusToCompleted | INFO | Order 3status updated
 2023-09-29 13:29:27 | printReceipt | INFO | Printing Receipt Completed.
+2023-09-30 09:23:37 | createBillingTrigger | INFO | Trigger exists, skipping creation.
+2023-09-30 09:23:38 | createUserInDatabase | INFO | Creating default user admin in database.
+2023-09-30 09:23:38 | passwordHasher | SEVERE | Hashing Algorithm Error: SHA-150 MessageDigest not available
+2023-09-30 09:23:38 | createUserInDatabase | INFO | admin User Created Successfully in Database.
+2023-09-30 09:25:12 | createBillingTrigger | INFO | Trigger exists, skipping creation.
+2023-09-30 09:25:12 | createUserInDatabase | INFO | Creating default user admin in database.
+2023-09-30 09:25:12 | createUserInDatabase | INFO | admin User Created Successfully in Database.

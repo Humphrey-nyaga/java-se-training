@@ -1,4 +1,4 @@
-package com.systechafrica.pos.generics.exercises;
+package com.systechafrica.part3.generics.exercises;
 
 import java.util.Arrays;
 import java.util.List;
