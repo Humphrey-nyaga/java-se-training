@@ -174,3 +174,28 @@
 2023-09-29 09:29:25 | createUserInDatabase | INFO | admin User Created Successfully in Database.
 2023-09-29 09:30:29 | login | INFO | Login attempt from: admin successful 
 
+2023-09-29 13:28:09 | createBillingTrigger | INFO | Trigger exists, skipping creation.
+2023-09-29 13:28:10 | createUserInDatabase | INFO | Creating default user admin in database.
+2023-09-29 13:28:10 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!
+2023-09-29 13:28:17 | login | INFO | Login attempt from: admin successful 
+
+2023-09-29 13:28:35 | createOrderInDatabase | INFO | Order Created In the Database Successfully
+2023-09-29 13:28:35 | createOrderInDatabase | INFO | Retrieving the Order ID...
+2023-09-29 13:28:35 | createOrderInDatabase | INFO | Order ID Retrieval Completed.2
+2023-09-29 13:28:35 | insertOrderItemsToDatabase | INFO | Batch Insert of cart items into database completed.
+2023-09-29 13:28:35 | getCartItemsFromDb | INFO | Cart Items start retrieving from the database.
+2023-09-29 13:28:35 | getCartItemsFromDb | INFO | Cart Items retrieval finished from the database.
+2023-09-29 13:28:35 | getCartItemsFromDb | INFO | Cart Items: [Cart{item=Item{id=233, itemPrice=450.0}, itemQuantity=4}, Cart{item=Item{id=345, itemPrice=500.0}, itemQuantity=2}]
+2023-09-29 13:28:36 | billing | INFO | Billing Completed for order 2!..
+2023-09-29 13:28:40 | updateOrderStatusToCompleted | INFO | Order 2status updated
+2023-09-29 13:29:03 | printReceipt | INFO | Printing Receipt Completed.
+2023-09-29 13:29:14 | createOrderInDatabase | INFO | Order Created In the Database Successfully
+2023-09-29 13:29:14 | createOrderInDatabase | INFO | Retrieving the Order ID...
+2023-09-29 13:29:14 | createOrderInDatabase | INFO | Order ID Retrieval Completed.3
+2023-09-29 13:29:15 | insertOrderItemsToDatabase | INFO | Batch Insert of cart items into database completed.
+2023-09-29 13:29:15 | getCartItemsFromDb | INFO | Cart Items start retrieving from the database.
+2023-09-29 13:29:15 | getCartItemsFromDb | INFO | Cart Items retrieval finished from the database.
+2023-09-29 13:29:15 | getCartItemsFromDb | INFO | Cart Items: [Cart{item=Item{id=900, itemPrice=344.0}, itemQuantity=245}, Cart{item=Item{id=2345, itemPrice=300.0}, itemQuantity=5}]
+2023-09-29 13:29:16 | billing | INFO | Billing Completed for order 3!..
+2023-09-29 13:29:23 | updateOrderStatusToCompleted | INFO | Order 3status updated
+2023-09-29 13:29:27 | printReceipt | INFO | Printing Receipt Completed.
