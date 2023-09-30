@@ -1,4 +1,4 @@
-package com.systechafrica.pos.generics;
+package com.systechafrica.part3.generics;
 
 public class GenericsDemo {
     public static void main(String[] args) {
