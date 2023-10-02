@@ -85,7 +85,7 @@ public class Restaurant {
 
     }
 
-    private void payments(double amountToPay) {
+    public void payments(double amountToPay) {
         Scanner payment = new Scanner(System.in);
         System.out.print("Enter amount to Pay: ");
         double cashGivenToPay = payment.nextDouble();
