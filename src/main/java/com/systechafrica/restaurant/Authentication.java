@@ -15,8 +15,6 @@ public class Authentication {
         return isValidLogin(DB_USERNAME, DB_PASSWORD);
     }
 
-    // I need a test for the method isValidLogin() and ensure it matches the method signature below
-
     public static boolean isValidLogin(String dbUsername, String dbPassword) {
         var loginTriesCount = 0;
         while (loginTriesCount < 3) {
