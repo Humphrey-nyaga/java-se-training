@@ -11,7 +11,7 @@ docker-compose.yml
 *.iml
 *.iws
 .jpb
-
+.vscode/
 # Mac
 .DS_Store
 

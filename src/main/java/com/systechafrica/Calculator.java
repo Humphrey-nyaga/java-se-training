@@ -17,6 +17,7 @@ public class Calculator {
         int a = scanner.nextInt();
         int b = scanner.nextInt();
         System.out.println(calculator.sum(10,20,10,10,10,10,10));
+        scanner.close();
 
     }
 }

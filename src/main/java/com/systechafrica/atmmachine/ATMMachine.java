@@ -10,47 +10,55 @@ public class ATMMachine {
     private static final Scanner scanner = new Scanner(System.in);
 
     double openingBalance = 1000;
-    //final double TRANSACTION_PERCENTAGE = ;
+    // final double TRANSACTION_PERCENTAGE = ;
 
     public boolean isValidLogin() {
         final String DB_USERNAME = "user254";
         final String DB_PASSWORD = "Admin123";
 
         int count = 0;
-        while (count < 3) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter your username: ");
-            String username = scanner.nextLine();
-            System.out.print("Enter your password: ");
-            String password = scanner.nextLine();
+        try (Scanner scanner = new Scanner(System.in);) {
 
-            if (username.equals(DB_USERNAME) && password.equals(DB_PASSWORD)) {
-                return true;
-            } else
-                System.out.println("Incorrect username or password!!");
-            count++;
+            while (count < 3) {
+
+                System.out.print("Enter your username: ");
+                String username = scanner.nextLine();
+                System.out.print("Enter your password: ");
+                String password = scanner.nextLine();
+
+                if (username.equals(DB_USERNAME) && password.equals(DB_PASSWORD)) {
+                    return true;
+                } else
+                    System.out.println("Incorrect username or password!!");
+                count++;
+            }
+            LOGGER.warning("Login Attempts Limit Exceeded!");
+        } catch (Exception e) {
+            LOGGER.info("Exception Encountered" + e.getMessage());
         }
-        LOGGER.warning("Login Attempts Limit Exceeded!");
         return false;
+
     }
-    public double checkBalance(){
+
+    public double checkBalance() {
         System.out.println("Balance is: " + openingBalance);
         return openingBalance;
     }
-    public double deposit(){
+
+    public double deposit() {
         System.out.print("Enter Amount to Deposit: ");
         double depositAmount = scanner.nextInt();
-        if(depositAmount < 1) {
+        if (depositAmount < 1) {
             System.out.println("\nAmount Cannot be less than One");
-        }
-        else{
+        } else {
             openingBalance += depositAmount;
-            LOGGER.info("\nYour deposit of: "+ depositAmount +" was successful");
+            LOGGER.info("\nYour deposit of: " + depositAmount + " was successful");
             LOGGER.info("\nYour New Balance is: !" + openingBalance);
         }
         return openingBalance;
 
     }
+
     public void withdraw() {
         System.out.print("Enter Amount to Withdraw: ");
         int withdrawAmount = scanner.nextInt();
@@ -65,22 +73,22 @@ public class ATMMachine {
             LOGGER.info("Account balance is: !" + openingBalance + "\n");
         }
     }
-        public void transfer(){
-            System.out.print("Enter Amount to Transfer: ");
-            double transferAmount = scanner.nextInt();
-            if (transferAmount > openingBalance) {
-                System.out.print("\nInsufficient Balance!");
-            } else {
-                openingBalance -= transferAmount;
-                LOGGER.info("\n Amount transferred successfully is: !" + transferAmount);
-                LOGGER.info("Account balance is: !" + openingBalance + "\n");
-            }
-        }
 
+    public void transfer() {
+        System.out.print("Enter Amount to Transfer: ");
+        double transferAmount = scanner.nextInt();
+        if (transferAmount > openingBalance) {
+            System.out.print("\nInsufficient Balance!");
+        } else {
+            openingBalance -= transferAmount;
+            LOGGER.info("\n Amount transferred successfully is: !" + transferAmount);
+            LOGGER.info("Account balance is: !" + openingBalance + "\n");
+        }
+    }
 
     public void initiateTransaction() {
         boolean isActive = true;
-        while(isActive) {
+        while (isActive) {
             System.out.println("***************");
             System.out.println("ATM SIMULATOR");
             System.out.println("\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"");
@@ -107,7 +115,7 @@ public class ATMMachine {
                     withdraw();
                     break;
                 case "4":
-                  transfer();
+                    transfer();
                     break;
                 case "5":
                     isActive = false;
@@ -116,16 +124,15 @@ public class ATMMachine {
 
         }
     }
+
     public static void main(String[] args) {
         ATMMachine app = new ATMMachine();
-        if(app.isValidLogin()) {
+        if (app.isValidLogin()) {
             app.initiateTransaction();
         }
 
-        //LOGGER.info("hello "+ isValidUser);
-
+        // LOGGER.info("hello "+ isValidUser);
 
     }
-
 
 }

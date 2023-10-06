@@ -12,20 +12,24 @@ public class UserInputUsingScanner {
         final String DB_USERNAME = "user254";
         final String DB_PASSWORD = "Admin123";
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your username: ");
-        String username = scanner.nextLine();
-        System.out.print("Enter your password: ");
-        String password = scanner.nextLine();
+        try (Scanner scanner = new Scanner(System.in);) {
 
-        if(ValidateInput.validate(password) && ValidateInput.validate(username)) {
-            if (username.equals(DB_USERNAME) && password.equals(DB_PASSWORD)) {
-                System.out.println("Welcome to our website!!");
+            System.out.print("Enter your username: ");
+            String username = scanner.nextLine();
+            System.out.print("Enter your password: ");
+            String password = scanner.nextLine();
+
+            if (ValidateInput.validate(password) && ValidateInput.validate(username)) {
+                if (username.equals(DB_USERNAME) && password.equals(DB_PASSWORD)) {
+                    System.out.println("Welcome to our website!!");
+                } else {
+                    System.out.println("Incorrect username or password!!");
+                }
             } else {
-                System.out.println("Incorrect username or password!!");
+                throw new IllegalStateException("Invalid Input Length");
             }
-        }else{
-            throw new IllegalStateException("Invalid Input Length");
+        } catch (Exception e) {
+            LOGGER.info("Excepion Encountered: " + e.getMessage());
         }
     }
 
