@@ -35,11 +35,7 @@ public class WorkingWithFiles {
             log.delete();
         }
     }
-    public static void workingWithFileStreams(){
-
-    }
     public static void main(String[] args) throws IOException {
-    // workWithFiles();
-     workingWithFileStreams();
+     workWithFiles();
     }
 }
