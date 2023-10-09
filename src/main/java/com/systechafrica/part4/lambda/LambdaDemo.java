@@ -10,22 +10,24 @@ public class LambdaDemo {
         System.out.println(function.apply("HAPPY NEW YEAR 3000!"));
     }
 
+    static Function<List<Integer>, Integer> maxFunction = list -> {
+        return list.stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElse(0);
+    };
+
     public static void workWithBiFunctions() {
         BiFunction<Integer, Integer, Integer> multiplier = (a, b) -> a * b;
 
         System.out.println(multiplier.apply(45, 95));
         System.out.println(multiplier.apply(5, 200));
         System.out.println(multiplier.apply(20, 20));
+    }
 
-        Function<List<Integer>, Integer> maxFunction = list -> {
-            return list.stream()
-                    .mapToInt(Integer::intValue)
-                    .max()
-                    .orElse(0);
-        };
-
-        List<Integer> numbers = Arrays.asList(35, 22, 92, 11, -8);
-        System.out.println("Maximum value from List: " + maxFunction.apply(numbers));
+    public static void test(Function<List<Integer>, Integer> function) {
+        List<Integer> nums = Arrays.asList(35, 22, 92, 11, -8);
+        System.out.println(function.apply(nums));
 
     }
 
@@ -33,6 +35,8 @@ public class LambdaDemo {
         Function<String, Integer> counter = s -> s.length();
         printResultOfLambda(counter);
         workWithBiFunctions();
+        test(maxFunction);
+
     }
 
 }
