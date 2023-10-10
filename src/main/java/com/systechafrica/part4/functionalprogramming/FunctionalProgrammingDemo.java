@@ -70,6 +70,11 @@ public class FunctionalProgrammingDemo {
         System.out.println("Even Numbers Count = " + count);
     }
 
+
+    public static void filterNumbers(){
+        
+    }
+
     public static void main(String[] args) {
         // functions();
         // lambdaInFunction();
