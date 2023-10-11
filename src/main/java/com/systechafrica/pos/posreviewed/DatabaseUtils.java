@@ -17,7 +17,6 @@ public class DatabaseUtils {
     static final Logger LOGGER = FileLogger.getLogger();
     public static int orderID = -1;
 
-
     static Connection connect() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -69,12 +68,12 @@ public class DatabaseUtils {
             preparedStatement.executeUpdate();
 
             String createOrdersTable = """
-                      CREATE TABLE IF NOT EXISTS orders (
-                            id    INT PRIMARY KEY AUTO_INCREMENT,
-                            time  DATETIME NOT NULL,
-                            total DECIMAL(10, 2) DEFAULT 0.0,
-                            completed  BOOLEAN DEFAULT FALSE);
-                      """;
+                    CREATE TABLE IF NOT EXISTS orders (
+                          id    INT PRIMARY KEY AUTO_INCREMENT,
+                          time  DATETIME NOT NULL,
+                          total DECIMAL(10, 2) DEFAULT 0.0,
+                          completed  BOOLEAN DEFAULT FALSE);
+                    """;
             PreparedStatement preparedStatement1 = conn.prepareStatement(createOrdersTable);
             preparedStatement1.executeUpdate();
 
@@ -98,7 +97,6 @@ public class DatabaseUtils {
 
         }
     }
-
 
     public static int createOrderInDatabase() {
         int orderIDInDb = -1;

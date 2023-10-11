@@ -86,8 +86,8 @@ public class POSReviewed {
         } else {
             insertOrderItemsToDatabase(customerItems);
             CartItemsFromDb = getCartItemsFromDb(orderID);
-            billAmount= billing(CartItemsFromDb);
-           // billAmount = billing(orderID);
+            billAmount = billing(CartItemsFromDb);
+            // billAmount = billing(orderID);
             System.out.println(formatReceiptData(CartItemsFromDb));
             System.out.println("*************************************");
             String currency = "KES";
@@ -128,19 +128,21 @@ public class POSReviewed {
          * }
          * LOGGER.info("Billing Completed for order " + orderID + "!..");
          */
-         return cartList.stream()
-        .mapToDouble(cart -> {
-            return cart.getItemQuantity() * cart.getItem().getItemPrice();
-        })
-        .sum();
-    
+        return cartList.stream()
+                .mapToDouble(cart -> {
+                    return cart.getItemQuantity() * cart.getItem().getItemPrice();
+                })
+                .sum();
+
     }
 
-   /*  public double billing(int order) {
-        double total = getOrderTotalFromDb(orderID);
-        LOGGER.info("Billing Completed for order " + orderID + "!..");
-        return total;
-    } */
+    /*
+     * public double billing(int order) {
+     * double total = getOrderTotalFromDb(orderID);
+     * LOGGER.info("Billing Completed for order " + orderID + "!..");
+     * return total;
+     * }
+     */
 
     public boolean isCartEmpty(List<Cart> cart) {
         return cart.isEmpty();
@@ -150,15 +152,16 @@ public class POSReviewed {
         StringBuilder formattedReceiptData = new StringBuilder();
         formattedReceiptData.append(
                 String.format("%-10s  %-9s  %-12s  %-12s%n", "Item Code", "Quantity", "Unit Price", "Total Value"));
-        for (Cart cart : itemsInCartList) {
-            Item item = cart.getItem();
-            int quantity = cart.getItemQuantity();
-            double unitPrice = item.getItemPrice();
-            double totalValue = unitPrice * quantity;
-            formattedReceiptData.append(String.format("%-11d  %4d  %12s  %12s%n", item.getId(), quantity,
-                    String.format("%.2f", unitPrice), String.format("%.2f", totalValue)));
-        }
-        return formattedReceiptData.toString();
+
+        itemsInCartList.forEach(cart -> {
+            formattedReceiptData
+                    .append(String.format("%-11d  %4d  %12s  %12s%n", cart.getItem().getId(), cart.getItemQuantity(),
+                            String.format("%.2f", cart.getItem().getItemPrice()),
+                            String.format("%.2f", cart.getItemQuantity() * cart.getItem().getItemPrice())));
+        });
+
+        return formattedReceiptData.toString();4
+
     }
 
     private void printReceipt() {
