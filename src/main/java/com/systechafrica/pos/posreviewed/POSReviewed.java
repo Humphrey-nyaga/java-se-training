@@ -1,6 +1,5 @@
 package com.systechafrica.pos.posreviewed;
 
-
 import com.systechafrica.pos.posreviewed.logger.FileLogger;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,8 +19,8 @@ public class POSReviewed {
     private final List<Cart> customerItems = new ArrayList<>();
     private static List<Cart> CartItemsFromDb = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
-    private  double billAmount = 0;
-   // private  double totalBillAmount = 0;
+    private double billAmount = 0;
+    // private double totalBillAmount = 0;
 
     private double amountGivenByCustomer = 0;
     private double balance = 0;
@@ -81,15 +80,14 @@ public class POSReviewed {
         System.out.println();
     }
 
-
     private void payment() {
         if (isCartEmpty(customerItems)) {
             System.out.println("Please add items first to the Cart!!");
         } else {
             insertOrderItemsToDatabase(customerItems);
             CartItemsFromDb = getCartItemsFromDb(orderID);
-            //billing(cartItems);
-             billAmount = billing(orderID);
+            billAmount= billing(CartItemsFromDb);
+           // billAmount = billing(orderID);
             System.out.println(formatReceiptData(CartItemsFromDb));
             System.out.println("*************************************");
             String currency = "KES";
@@ -112,35 +110,41 @@ public class POSReviewed {
                     System.out.println();
                     customerItems.clear();
                 }
-            }catch (InputMismatchException ex){
-               LOGGER.info("Amount Can only be an integer: " + ex.getMessage());
+            } catch (InputMismatchException ex) {
+                LOGGER.info("Amount Can only be an integer: " + ex.getMessage());
             }
         }
         System.out.println();
     }
 
-    public void billing(@NotNull List<Cart> cartList) {
-        for (Cart cart : cartList) {
-            Item item = cart.getItem();
-            int quantity = cart.getItemQuantity();
-            double unitPrice = item.getItemPrice();
-            double totalValue = unitPrice * quantity;
-            billAmount += totalValue;
-        }
-        LOGGER.info("Billing Completed for order " + orderID + "!..");
-
+    public double billing(@NotNull List<Cart> cartList) {
+        /*
+         * for (Cart cart : cartList) {
+         * Item item = cart.getItem();
+         * int quantity = cart.getItemQuantity();
+         * double unitPrice = item.getItemPrice();
+         * double totalValue = unitPrice * quantity;
+         * billAmount += totalValue;
+         * }
+         * LOGGER.info("Billing Completed for order " + orderID + "!..");
+         */
+         return cartList.stream()
+        .mapToDouble(cart -> {
+            return cart.getItemQuantity() * cart.getItem().getItemPrice();
+        })
+        .sum();
+    
     }
-    public double billing(int order){
-        double total =  getOrderTotalFromDb(orderID);
+
+   /*  public double billing(int order) {
+        double total = getOrderTotalFromDb(orderID);
         LOGGER.info("Billing Completed for order " + orderID + "!..");
         return total;
-    }
-
+    } */
 
     public boolean isCartEmpty(List<Cart> cart) {
         return cart.isEmpty();
     }
-
 
     public String formatReceiptData(@NotNull List<Cart> itemsInCartList) {
         StringBuilder formattedReceiptData = new StringBuilder();

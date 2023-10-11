@@ -3,10 +3,12 @@ package com.systechafrica.part4.lambda;
 import com.systechafrica.part4.functionalprogramming.Student;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Lambda {
     public static void main(String[] args) {
@@ -19,7 +21,7 @@ public class Lambda {
         // System.out.println("hey " + func.generateRandomUUID());
         // System.out.println("SubString UUID " + func2.generateRandomUUID());
 
-        // Lambda func that doesnt return value
+        // Lambda func that doesnt return value and accepts multiple parameters
         GenerateReport<Student, Map<Integer, List<Integer>>> report = (student, scores) -> {
             System.out.println("*******************************");
             System.out.println("****SYSTECH STUDENT REPORT*****");
@@ -49,8 +51,39 @@ public class Lambda {
             }
         };
 
+      // getSortedStudentAverageScores(scores);
+
         students.forEach(student -> report.generateReport(student, scores));
 
+    }
+
+    private static void getSortedStudentAverageScores(Map<Integer, List<Integer>> scores) {
+        Map<Integer, Double> sortedMap = scores.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            entry -> entry.getValue().stream()
+                                    .mapToDouble(Integer::doubleValue)
+                                    .average()
+                                    .orElse(0.0) 
+                    ));
+
+            // Sort the map by average grades
+            sortedMap = sortedMap.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByValue())
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            Map.Entry::getValue,
+                            (e1, e2) -> e1, 
+                            LinkedHashMap::new 
+                    ));
+
+            System.out.println("Sorted Map by Average Grades:");
+            sortedMap.forEach((key, value) -> {
+                System.out.println("Student ID: " + key);
+                System.out.println("Average Grade: " + value);
+            });
     }
 
     static void printGrades(int id, Map<Integer, List<Integer>> scores) {

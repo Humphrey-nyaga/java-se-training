@@ -206,3 +206,17 @@
 2023-09-30 09:25:12 | createBillingTrigger | INFO | Trigger exists, skipping creation.
 2023-09-30 09:25:12 | createUserInDatabase | INFO | Creating default user admin in database.
 2023-09-30 09:25:12 | createUserInDatabase | INFO | admin User Created Successfully in Database.
+2023-10-11 04:55:35 | createBillingTrigger | INFO | Trigger exists, skipping creation.
+2023-10-11 04:55:35 | createUserInDatabase | INFO | Creating default user admin in database.
+2023-10-11 04:55:35 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!
+2023-10-11 04:55:44 | login | INFO | Login attempt from: admin successful 
+
+2023-10-11 04:56:40 | createOrderInDatabase | INFO | Order Created In the Database Successfully
+2023-10-11 04:56:40 | createOrderInDatabase | INFO | Retrieving the Order ID...
+2023-10-11 04:56:40 | createOrderInDatabase | INFO | Order ID Retrieval Completed.4
+2023-10-11 04:56:41 | insertOrderItemsToDatabase | INFO | Batch Insert of cart items into database completed.
+2023-10-11 04:56:41 | getCartItemsFromDb | INFO | Cart Items start retrieving from the database.
+2023-10-11 04:56:41 | getCartItemsFromDb | INFO | Cart Items retrieval finished from the database.
+2023-10-11 04:56:41 | getCartItemsFromDb | INFO | Cart Items: [Cart{item=Item{id=234, itemPrice=100.0}, itemQuantity=5}, Cart{item=Item{id=235, itemPrice=200.0}, itemQuantity=5}, Cart{item=Item{id=245, itemPrice=500.0}, itemQuantity=10}, Cart{item=Item{id=1000, itemPrice=5.0}, itemQuantity=1000}]
+2023-10-11 04:56:54 | updateOrderStatusToCompleted | INFO | Order 4status updated
+2023-10-11 04:56:57 | printReceipt | INFO | Printing Receipt Completed.
