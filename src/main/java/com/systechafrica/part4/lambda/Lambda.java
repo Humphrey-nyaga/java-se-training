@@ -5,6 +5,7 @@ import com.systechafrica.part4.functionalprogramming.Student;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Lambda {
@@ -53,7 +54,25 @@ public class Lambda {
     }
 
     static void printGrades(int id, Map<Integer, List<Integer>> scores) {
-        scores.entrySet()
+
+        Optional<List<Integer>> studentScores = scores.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey() == id)
+                .map(Map.Entry::getValue)
+                .findFirst();
+
+        if (studentScores.isPresent()) {
+            List<Integer> grades = studentScores.get();
+            System.out.println(grades);
+            double average = grades.stream()
+                    .mapToDouble(Integer::doubleValue)
+                    .average().getAsDouble();
+            System.out.println("Average: " + average);
+        } else {
+            System.out.println("Student not found");
+        }
+
+      /*   scores.entrySet()
                 .stream()
                 .filter(entry -> entry.getKey() == id)
                 .findFirst()
@@ -63,6 +82,6 @@ public class Lambda {
                         },
                         () -> {
                             System.out.println("Student with ID " + id + " not found.");
-                        });
-    };
+                        }); */
+    }
 }
