@@ -1,5 +1,7 @@
 package com.part4.functionalprogramming;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.systechafrica.part4.functionalprogramming.Calculator;
+import com.systechafrica.part4.functionalprogramming.Divider;
 
 class CalculatorTest {
 
@@ -21,6 +24,10 @@ class CalculatorTest {
         List<Integer> nums = Arrays.stream(numbers).boxed().toList();
         return nums.stream()
                 .reduce(sum, Integer::sum);
+    };
+
+    Divider divider =(a,b)->{
+        return a/b;
     };
 
     @Test
@@ -42,6 +49,15 @@ class CalculatorTest {
                 () -> Assertions.assertNotEquals(20, calculator.calculate(12, -8), " expected result should match")
 
         );
+    }
+
+    @Test
+    @DisplayName(" Divider arithmetic class")
+    void testDivider(){
+       Assertions.assertAll(
+       ()-> Assertions.assertEquals(2, divider.divide(20, 10),"Results should match expected"),
+       ()->assertThrows( ArithmeticException.class,()-> divider.divide(4,0), "Results should match expected")
+       );
     }
 
 }

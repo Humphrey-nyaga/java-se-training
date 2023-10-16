@@ -160,7 +160,7 @@ public class POSReviewed {
                             String.format("%.2f", cart.getItemQuantity() * cart.getItem().getItemPrice())));
         });
 
-        return formattedReceiptData.toString();4
+        return formattedReceiptData.toString();
 
     }
 
