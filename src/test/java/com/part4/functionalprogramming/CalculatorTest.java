@@ -26,13 +26,21 @@ class CalculatorTest {
     @Test
     @DisplayName("Test calculation using calculate method")
     void testSum() {
-      
+
         // then
         Assertions.assertAll(
-            ()-> Assertions.assertEquals(14, calculator.calculate(7, 7), "expected result should match" ),
-            ()-> Assertions.assertEquals(120, calculator.calculate(10, 10,20, 10, 20, 50), "expected result should match" ),
-            ()-> Assertions.assertEquals(100, calculator.calculate(0, 0,20, 10, 20, 50), "expected result should match" ),
-            ()-> Assertions.assertEquals(14, calculator.calculate(7, 7), "expected result should match" )
+                () -> Assertions.assertEquals(14, calculator.calculate(7, 7), "expected result should match"),
+                () -> Assertions.assertEquals(120, calculator.calculate(10, 10, 20, 10, 20, 50),
+                        "expected result should match"),
+                () -> Assertions.assertEquals(100, calculator.calculate(0, 0, 20, 10, 20, 50),
+                        "expected result should match"),
+                () -> Assertions.assertEquals(14, calculator.calculate(7, 7), "expected result should match"),
+                () -> Assertions.assertEquals(0, calculator.calculate(7, -7), "expected result should match"),
+                // assert false
+                () -> Assertions.assertNotEquals(12, calculator.calculate(2, 9, 3), " expected result should match"),
+                () -> Assertions.assertNotEquals(12, calculator.calculate(12, 0, 98), " expected result should match"),
+                () -> Assertions.assertNotEquals(20, calculator.calculate(12, -8), " expected result should match")
+
         );
     }
 
