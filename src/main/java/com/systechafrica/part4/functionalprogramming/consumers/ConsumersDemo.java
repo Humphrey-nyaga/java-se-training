@@ -48,5 +48,16 @@ public class ConsumersDemo {
             consumer.accept(t);
         }
     }
+    /*
+     * Predicate -> boolean test(t t)
+     * BiPredicate -> boolean test(T t, U u)
+     * 
+     * Function -> R apply(T t)
+     * BiFunction -> R apply(T t, U u)
+     * 
+     * 
+     * Consumer -> void accept(T t)
+     * BiConsumer -> void accept(T t, U u)
+     */
 
 }
