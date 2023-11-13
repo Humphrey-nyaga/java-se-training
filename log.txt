@@ -249,3 +249,14 @@
 2023-10-25 00:44:53 | updateOrderStatusToCompleted | INFO | Order 6status updated
 2023-10-25 00:44:55 | printReceipt | INFO | Printing Receipt Completed.
 2023-10-25 00:44:59 | printReceipt | INFO | Printing Receipt Completed.
+2023-11-13 11:39:11 | createDatabaseTables | INFO | Database Driver Error: com.mysql.cj.jdbc.Driver
+2023-11-13 11:39:11 | createUserInDatabase | INFO | Database Exception: com.mysql.cj.jdbc.Driver
+2023-11-13 11:41:10 | validateCredentialInDatabase | INFO | Class Not Found: com.mysql.cj.jdbc.Driver
+2023-11-13 11:44:52 | createBillingTrigger | INFO | SQL Exception: You do not have the SUPER privilege and binary logging is enabled (you *might* want to use the less safe log_bin_trust_function_creators variable)
+2023-11-13 11:44:52 | createUserInDatabase | INFO | Creating default user admin in database.
+2023-11-13 11:44:52 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!
+2023-11-13 12:04:43 | createDatabaseTables | INFO | Database Driver Error: com.mysql.cj.jdbc.Driver
+2023-11-13 12:04:44 | createUserInDatabase | INFO | Database Exception: com.mysql.cj.jdbc.Driver
+2023-11-13 12:10:51 | createBillingTrigger | INFO | SQL Exception: You do not have the SUPER privilege and binary logging is enabled (you *might* want to use the less safe log_bin_trust_function_creators variable)
+2023-11-13 12:10:51 | createUserInDatabase | INFO | Creating default user admin in database.
+2023-11-13 12:10:51 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!
