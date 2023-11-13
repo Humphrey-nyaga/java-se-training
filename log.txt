@@ -260,3 +260,5 @@
 2023-11-13 12:10:51 | createBillingTrigger | INFO | SQL Exception: You do not have the SUPER privilege and binary logging is enabled (you *might* want to use the less safe log_bin_trust_function_creators variable)
 2023-11-13 12:10:51 | createUserInDatabase | INFO | Creating default user admin in database.
 2023-11-13 12:10:51 | createUserInDatabase | INFO | Exception Creating User: User with username admin already exists!
+2023-11-13 13:32:39 | createDatabaseTables | INFO | Database Error Creating Tables: Access denied for user 'javase'@'%' to database 'pointofsale'
+2023-11-13 13:32:39 | createUserInDatabase | INFO | Database Exception: Access denied for user 'javase'@'%' to database 'pointofsale'
